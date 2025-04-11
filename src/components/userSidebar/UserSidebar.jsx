@@ -35,9 +35,11 @@ const UserSidebar = ({ isOpen, onClose }) => {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-40 z-40 md:hidden"
-          onClick={onClose}
-        />
+        className="fixed inset-0 bg-[rgba(0,0,0,0.05)] z-40"
+        onClick={onClose}
+      />
+      
+      
       )}
 
       {/* Sidebar */}

@@ -3,6 +3,7 @@ import { AppRoutes } from "./AppRoutes";
 import Register from "../pages/auth/Register";
 import Login from "../pages/auth/Login";
 import UserLayout from "../layout/UserLayout";
+import Home from "../pages/home/Home";
 
 const CustomRoutes = () => {
     return(
@@ -16,7 +17,10 @@ const CustomRoutes = () => {
              <Route path={AppRoutes.LOGIN} element={<Login />} />
              <Route path={AppRoutes.ADMIN_LOGIN} element={<Login />} />
              
-             <Route path={AppRoutes.USER_BASE} element={<UserLayout />} />
+             <Route path={AppRoutes.USER_BASE} element={<UserLayout />}>
+                <Route path={AppRoutes.USER_HOME} element={<Home />} />
+             </Route>
+
 
 
 

@@ -11,28 +11,23 @@ const UserLayout = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100 relative">
       {/* Navbar */}
       <UserNavbar onSidebarToggle={toggleSidebar} />
 
-      {/* Main Content: Sidebar + Page Content */}
-      <div className="flex flex-1 pt-16 relative">
-        {/* Sidebar - controlled by toggle */}
+      {/* Main Section */}
+      <div className="flex-1 pt-16 relative z-10">
+        {/* Sidebar (overlays content) */}
         <UserSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-
         {/* Main Content */}
-        <main
-          className={`flex-1 p-4 transition-all duration-300 ${
-            isSidebarOpen ? "ml-64" : "ml-0"
-          }`}
-        >
+        <main className="relative z-10 p-4">
           <Outlet />
         </main>
       </div>
 
       {/* Footer */}
-      <footer className="bg-white shadow text-center p-4">
+      <footer className="bg-white shadow text-center p-4 z-10 relative">
         © 2025 College Tracker. All rights reserved.
       </footer>
     </div>

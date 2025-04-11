@@ -1,0 +1,89 @@
+.userHomeContainer {
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  min-height: 100vh;
+}
+
+.updatesSection {
+  background-color: #fff7e6;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #d17b00;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed #e6c17d;
+
+      strong {
+        color: #333;
+      }
+
+      span {
+        color: #777;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+.winnersSection {
+  background-color: #f4faff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #007acc;
+  }
+}
+
+.winnerCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.winnerCard {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.75rem;
+  }
+
+  h4 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+}
