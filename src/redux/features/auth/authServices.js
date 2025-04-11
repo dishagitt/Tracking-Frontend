@@ -1,8 +1,9 @@
 // import axios from "axios";
 
 // const API_URL = import.meta.env.VITE_API_URL;
+console.log("📦 authService loaded!");
 
-const MOCK_MODE = true;
+export const MOCK_MODE = true; 
 
 const mockUser = {
   id: "123",
@@ -128,6 +129,48 @@ const register = async (userData) => {
   }
 
 
+  // Fetch registered team members
+  const fetchMembers = async (userId) => {
+    if (MOCK_MODE) {
+      const members = [
+        {
+          _id: "1",
+          firstName: "John",
+          lastName: "Doe",
+          email: "john@example.com",
+          contact: "9876543210",
+        },
+        {
+          _id: "2",
+          firstName: "Jane",
+          lastName: "Smith",
+          email: "jane@example.com",
+          contact: "9123456789",
+        },
+      ];
+      console.log("✅ MOCK members:", members,userId);
+      return Promise.resolve(members); // must return an array
+    }
+    console.warn("🚨 MOCK_MODE is false, returning empty array");
+  return [];
+  
+    // Real API call
+    // const response = await axios.get(`${API_URL}/team-members/${userId}`, authHeader());
+    // return response.data;
+  };
+  
+
+// Delete team members
+const deleteMember = async (memberId) => {
+  if (MOCK_MODE) {
+    console.log("Mock delete member:", memberId);
+    return Promise.resolve({ message: "Member deleted successfully" });
+  }
+
+  // const response = await axios.delete(`${API_URL}/team-members/${memberId}`, authHeader());
+  // return response.data;
+};
+
   
   const authService = {
     register,
@@ -139,8 +182,9 @@ const register = async (userData) => {
     getLoginStatus,
     updateUser,
     fetchUserTypes,
-    changePassword
+    changePassword,
+    fetchMembers,
+    deleteMember
   };
   
   export default authService;
-  

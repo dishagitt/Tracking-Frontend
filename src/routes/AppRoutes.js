@@ -7,7 +7,7 @@ export const AppRoutes = {
     // User base layout
     USER_BASE: "/app",
     USER_HOME: "/app/home",
-    TEAM_MEMBER_REGISTER: "/app/register-team-member",
+    REGISTER_TEAM_MEMBER: "/app/register-team-member",
     TEAM_INFO: "/app/team-info",
   
     // Admin base layout

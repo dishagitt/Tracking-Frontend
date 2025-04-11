@@ -28,15 +28,15 @@ const UserNavbar = ({ onSidebarToggle }) => {
             <FiMenu size={24} />
           </button>
 
-          <Navbar.Brand className="d-flex align-items-center text-white fw-bold mb-0">
+          <Navbar.Brand className="d-flex align-items-center text-white fw-bold mb-0 ml-10">
             <img src={logo} alt="College Logo" className="me-2" />
-            <span>User Dashboard</span>
+            <span className="ml-2">User Dashboard</span>
           </Navbar.Brand>
         </div>
 
         {/* Icon Section - responsive float to left on small screen */}
         <div className="nav-icons d-flex align-items-center gap-4 ms-auto me-3">
-          <a href="/app/home" className="text-white fs-4 nav-icon-link">
+          <a href="/app/home" className="text-white fs-3 mr-4 nav-icon-link">
             <FaHome />
           </a>
 
