@@ -27,8 +27,10 @@
 //   });
 
 //   useEffect(() => {
-//     if (!hideUserTypeSelect) dispatch(fetchUserTypes());
-//   }, [dispatch, hideUserTypeSelect]);
+//     if (!hideUserTypeSelect && presetUserType !== "teamMember") {
+//       dispatch(fetchUserTypes());
+//     }
+//   }, [dispatch, hideUserTypeSelect, presetUserType]);
 
 //   useEffect(() => {
 //     if (error) toast.error(error);
@@ -72,15 +74,22 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     if (!validateForm()) return;
-  
+
 //     const data = new FormData();
 //     Object.entries(formData).forEach(([key, value]) => data.append(key, value));
-  
+
 //     try {
 //       const result = await dispatch(registerUser({ formData: data, navigate }));
-  
+
 //       if (registerUser.fulfilled.match(result)) {
-//         toast.success("Registration successful!");
+//         const isApprovalRequired = ["teamLeader", "mentor", "volunteer"].includes(formData.userType) && presetUserType !== "teamMember";
+
+//         if (isApprovalRequired) {
+//           toast.success("Registration submitted! Awaiting approval.");
+//         } else {
+//           toast.success("Registration successful!");
+//         }
+
 //         onSuccess ? onSuccess() : navigate("/login");
 //       } else {
 //         const msg = result.payload || "Registration failed";
@@ -91,12 +100,11 @@
 //       toast.error("Something went wrong. Please try again.");
 //     }
 //   };
-  
 
 //   return (
 //     <Container className="mt-4">
 //       <Row className="justify-content-center">
-//         <Col md={6}>
+//         <Col md={5}>
 //           <Form onSubmit={handleSubmit} encType="multipart/form-data" className="p-4 border rounded shadow">
 //             <h3 className="text-center mb-4">Register</h3>
 
@@ -153,19 +161,33 @@
 //               />
 //             </Form.Group>
 
-//             {!hideUserTypeSelect && (
+//             {/* User Type Field */}
+//             {presetUserType === "teamMember" ? (
 //               <Form.Group className="mb-3">
-//                 <Form.Select name="userType" value={formData.userType} onChange={handleChange} required>
-//                   <option value="">Select User Type</option>
-//                   {userTypes?.map((type) => (
-//                     <option key={type._id} value={type.name}>
-//                       {type.name}
-//                     </option>
-//                   ))}
-//                 </Form.Select>
+//                 <Form.Control
+//                   type="text"
+//                   name="userType"
+//                   value="teamMember"
+//                   disabled
+//                   readOnly
+//                 />
 //               </Form.Group>
+//             ) : (
+//               !hideUserTypeSelect && (
+//                 <Form.Group className="mb-3">
+//                   <Form.Select name="userType" value={formData.userType} onChange={handleChange} required>
+//                     <option value="">Select User Type</option>
+//                     {userTypes?.map((type) => (
+//                       <option key={type._id} value={type.name}>
+//                         {type.name}
+//                       </option>
+//                     ))}
+//                   </Form.Select>
+//                 </Form.Group>
+//               )
 //             )}
 
+//             {/* ID Proof */}
 //             <Form.Group className="mb-3">
 //               <Form.Control type="file" name="idProof" accept="image/*" onChange={handleChange} required />
 //               {formData.idProof && (
@@ -182,7 +204,8 @@
 //               {loading ? <Spinner animation="border" size="sm" /> : "Register"}
 //             </Button>
 
-//             {!presetUserType && (
+//             {/* Conditional Login Link */}
+//             {presetUserType !== "teamMember" && (
 //               <div className="text-center mt-3">
 //                 Already have an account?{" "}
 //                 <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => navigate("/login")}>
@@ -202,6 +225,7 @@
 
 
 
+
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -209,7 +233,11 @@ import "react-toastify/dist/ReactToastify.css";
 // import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = ({
+    presetUserType = "",
+    hideUserTypeSelect = false,
+    // onSuccess = null,
+  }) => {
 
     const navigate = useNavigate(); 
 
@@ -285,7 +313,7 @@ const Register = () => {
     // Frontend-only success
     toast.success("Registration successful 🎉");
     console.log("Submitted data:", formData);
-    navigate("/home");
+    navigate("/login");
   };
 
   return (
@@ -339,17 +367,36 @@ const Register = () => {
             autoComplete="new-password"
           />
 
-          <select
-            name="userType"
-            className="form-select mb-3"
-            value={formData.userType}
-            onChange={handleChange}
-          >
-            <option value="">Select User Type</option>
-            <option value="team-member">Team Member</option>
-            <option value="mentor">Mentor</option>
-            <option value="admin">Admin</option>
-          </select>
+          
+
+           {/* User Type Field */}
+             {presetUserType === "teamMember" ? (
+                 <input type="text"
+                  name="userType"
+                  className="form-select mb-3"
+                  value="teamMember"
+                  disabled
+                  readOnly
+                  onChange={handleChange}
+                />
+               
+              
+            ) : (
+              !hideUserTypeSelect && (
+                <select
+                name="userType"
+                className="form-select mb-3"
+                value={formData.userType}
+                onChange={handleChange}
+              >
+                <option value="">Select User Type</option>
+                <option value="team-member">Team Member</option>
+                <option value="mentor">Mentor</option>
+                <option value="admin">Admin</option>
+              </select>
+              )
+            )}
+
 
           <input
             type="file"
@@ -371,6 +418,16 @@ const Register = () => {
           <button type="submit" className="btn btn-primary w-100">
             Register
           </button>
+
+          {/* Conditional Login Link */}
+             {presetUserType !== "teamMember" && (
+              <div className="text-center mt-3">
+                Already have an account?{" "}
+                 <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => navigate("/login")}>
+                   Login here!
+                 </span>
+             </div>
+             )}
         </form>
       </div>
 

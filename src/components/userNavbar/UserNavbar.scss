@@ -1,0 +1,27 @@
+.user-navbar {
+  background-color: #e69e05;
+
+  img{
+    height: 30px;
+  }
+
+  .sidebar-toggle {
+    background: none;
+    border: none;
+    color: white;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .dropdown-toggle::after {
+    display: none !important; // removes arrow
+  }
+}
+
+// Hover effect for dropdown items
+.custom-dropdown-menu .dropdown-item:hover {
+  background-color: #f3f3f3 !important; // light grey
+  color: #000;
+}

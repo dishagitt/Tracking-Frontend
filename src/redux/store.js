@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice"; // Import auth slice
+import sidebarReducer from "./features/sidebar/sidebarSlice"; // Import toggle slice for user sidebar toggle
 // import userReducer from "./slices/userSlice"; // Import user slice
 import {
   persistStore,
@@ -26,6 +27,7 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer, // Use persisted reducer
+    sidebar: sidebarReducer, // User Sidebar reducer
     // users: userReducer, // User Reducer
   },
   middleware: (getDefaultMiddleware) =>
