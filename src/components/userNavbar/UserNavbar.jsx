@@ -8,6 +8,8 @@ import { FiMenu } from "react-icons/fi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UserNavbar.scss";
 import logo from "../../assets/competition.png";
+import { useState } from "react";
+import ChangePasswordPopup from "../cards/ChangePasswordPopup";
 
 const UserNavbar = ({ onSidebarToggle }) => {
   const dispatch = useDispatch();
@@ -18,6 +20,9 @@ const UserNavbar = ({ onSidebarToggle }) => {
     localStorage.clear();
     navigate("/login", { replace: true });
   };
+
+  const [showChangePassword, setShowChangePassword] = useState(false);
+
 
   return (
     <Navbar expand="lg" className="user-navbar px-3 py-2 shadow-sm">
@@ -51,7 +56,12 @@ const UserNavbar = ({ onSidebarToggle }) => {
             <Dropdown.Menu className="custom-dropdown-menu">
               <Dropdown.Item href="/profile">Profile</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item href="/change-password">Change Password</Dropdown.Item>
+              <Dropdown.Item href="#"  onClick={() => setShowChangePassword(true)}>Change Password</Dropdown.Item>
+           {/* Change Password Modal */}
+          <ChangePasswordPopup
+            show={showChangePassword}
+            handleClose={() => setShowChangePassword(false)}
+          />
               <Dropdown.Divider />
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>

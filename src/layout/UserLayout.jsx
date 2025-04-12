@@ -16,7 +16,7 @@ const UserLayout = () => {
       <UserNavbar onSidebarToggle={toggleSidebar} />
 
       {/* Main Section */}
-      <div className="flex-1 pt-16 relative z-10">
+      <div className="flex-1 pt-10 relative z-10">
         {/* Sidebar (overlays content) */}
         <UserSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 

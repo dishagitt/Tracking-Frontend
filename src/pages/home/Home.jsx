@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import styles from "./Home.module.scss";
-import WinnerPopup from "../../components/card/WinnerPopup";
+import WinnerPopup from "../../components/cards/WinnerPopup";
 import { fetchWinners } from "../../redux/features/compDetails/compDetailsSlice"; 
 
 const Home = () => {

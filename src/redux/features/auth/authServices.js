@@ -1,190 +1,143 @@
 // import axios from "axios";
 
 // const API_URL = import.meta.env.VITE_API_URL;
-console.log("📦 authService loaded!");
 
-export const MOCK_MODE = true; 
 
-const mockUser = {
-  id: "123",
-  name: "Mock User",
-  email: "mock@example.com",
-  role: "team_leader",
-  token: "mock-token-123",
-};
+const MOCK_MODE = true; // Set to false when backend is ready
 
-// const authHeader = () => {
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Get token from localStorage
+// const getToken = () => {
 //   const user = JSON.parse(localStorage.getItem("user"));
+//   return user?.token;
+// };
+
+// Config with headers
+// const getConfig = () => {
+//   const token = getToken();
 //   return {
 //     headers: {
-//       Authorization: `Bearer ${user?.token}`,
+//       Authorization: `Bearer ${token}`,
 //     },
 //   };
 // };
 
-
-// Register user
-const register = async (userData) => {
-    if (MOCK_MODE) {
-      console.log("Mock register:", userData);
-      return Promise.resolve({ message: "User registered successfully", user: userData });
-    }
-    // const response = await axios.post(`${API_URL}/api/v1/auth/register`, userData);
-    // return response.data;
-  };
-  
-  // Register profile
-  const registerProfile = async (userData) => {
-    if (MOCK_MODE) {
-      console.log("Mock register profile:", userData);
-      return Promise.resolve({ message: "Profile registered", profile: userData });
-    }
-  
-    // const response = await axios.post(`${API_URL}/api/v1/profiles`, userData, authHeader());
-    // return response.data;
-  };
-  
-  // Login
-  const login = async (userData) => {
-    if (MOCK_MODE) {
-      console.log("Mock login:", userData);
-      return Promise.resolve({
-        token: mockUser.token,
-        user: mockUser,
-      });
-    }
-    // const response = await axios.post(`${API_URL}/api/v1/auth/authenticate`, userData);
-    // return response.data;
-  };
-  
-  // Logout
-  const logout = async () => {
-    if (MOCK_MODE) {
-      console.log("Mock logout");
-      return Promise.resolve({ message: "Logged out" });
-    }
-    // localStorage.removeItem("user");
-  };
-  
-  // Get user by ID
-  const getUserById = async (userId) => {
-    if (MOCK_MODE) {
-      console.log("Mock get user by ID:", userId);
-      return Promise.resolve(mockUser);
-    }
-    // const response = await axios.get(`${API_URL}/api/users/${userId}`, authHeader());
-    // return response.data;
-  };
-  
-  // Get profile by ID
-  const getProfileById = async (profileId) => {
-    if (MOCK_MODE) {
-      console.log("Mock get profile by ID:", profileId);
-      return Promise.resolve({
-        id: profileId,
-        name: "Mock Profile",
-        branch: "CSE",
-      });
-    }
-    // const response = await axios.get(`${API_URL}/api/profiles/${profileId}`, authHeader());
-    // return response.data;
-  };
-  
-  // Check login status
-  const getLoginStatus = async () => {
-    if (MOCK_MODE) {
-      console.log("Mock login status");
-      return Promise.resolve(true);
-    }
-    // const response = await axios.get(`${API_URL}/getLoginStatus`, authHeader());
-    // return response.data;
-  };
-  
-  // Update user
-  const updateUser = async (userData) => {
-    if (MOCK_MODE) {
-      console.log("Mock update user:", userData);
-      return Promise.resolve({ message: "User updated", user: { ...mockUser, ...userData } });
-    }
-    // const response = await axios.patch(`${API_URL}/updateUser`, userData, authHeader());
-    // return response.data;
-  };
-  
-  const changePassword = async (userData) => {
-    if (MOCK_MODE){
-      console.log("Mock chnage password: ", userData);
-      return Promise.resolve({ message: "password changed", user: { ...mockUser, ...userData } });
-    }
-    // const response = await axios.post(`${API_URL}/changePassword`, userData, authHeader());
-    //     return response.data; 
-  }
-
-  const fetchUserTypes = async (userData) => {
-    if (MOCK_MODE){
-      console.log("user types: ", userData);
-      return Promise.resolve({ message: "user types", user: { ...mockUser, ...userData } });
-    }
-    // const response = await axios.post(`${API_URL}/changePassword`, userData, authHeader());
-    //     return response.data; 
-  }
-
-
-  // Fetch registered team members
-  const fetchMembers = async (userId) => {
-    if (MOCK_MODE) {
-      const members = [
-        {
-          _id: "1",
-          firstName: "John",
-          lastName: "Doe",
-          email: "john@example.com",
-          contact: "9876543210",
-        },
-        {
-          _id: "2",
-          firstName: "Jane",
-          lastName: "Smith",
-          email: "jane@example.com",
-          contact: "9123456789",
-        },
-      ];
-      console.log("✅ MOCK members:", members,userId);
-      return Promise.resolve(members); // must return an array
-    }
-    console.warn("🚨 MOCK_MODE is false, returning empty array");
-  return [];
-  
-    // Real API call
-    // const response = await axios.get(`${API_URL}/team-members/${userId}`, authHeader());
-    // return response.data;
-  };
-  
-
-// Delete team members
-const deleteMember = async (memberId) => {
-  if (MOCK_MODE) {
-    console.log("Mock delete member:", memberId);
-    return Promise.resolve({ message: "Member deleted successfully" });
-  }
-
-  // const response = await axios.delete(`${API_URL}/team-members/${memberId}`, authHeader());
-  // return response.data;
+// Mock data
+const mockUser = {
+  _id: "123",
+  firstName: "John",
+  lastName: "Doe",
+  email: "john@example.com",
+  userType: "team_leader",
+  isApproved: true,
+  token: "mocked-jwt-token",
 };
 
+const authService = {
+  register: async (userData) => {
+    if (MOCK_MODE) {
+      await delay(500);
+      return { ...mockUser, ...userData };
+    }
+    // REAL API
+    // const res = await axios.post("/api/auth/register", userData);
+    // return res.data;
+  },
+
+  login: async (userData) => {
+    if (MOCK_MODE) {
+      await delay(500);
+      return { ...mockUser, ...userData };
+    }
+    // REAL API
+    // const res = await axios.post("/api/auth/login", userData);
+    // return res.data;
+  },
+
+  logout: async () => {
+    if (MOCK_MODE) {
+      await delay(200);
+      return;
+    }
+    // REAL API
+    // await axios.post("/api/auth/logout", {}, getConfig());
+  },
+
+  fetchUserTypes: async () => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return ["admin", "mentor", "team_leader", "team_member"];
+    }
+    // REAL API
+    // const res = await axios.get("/api/user-types", getConfig());
+    // return res.data;
+  },
+
+  changePassword: async (data) => {
+    if (MOCK_MODE) {
+      await delay(500);
+      console.log("fetch members",data);
+      return { success: true };
+    }
+    // REAL API
+    // const res = await axios.post("/api/auth/change-password", data, getConfig());
+    // return res.data;
+  },
+
+  fetchMembers: async (userId) => {
+    if (MOCK_MODE) {
+      await delay(400);
+      if (userId === "mock-user-id-123") {
+        return [
+          { _id: "1", name: "Alice", email: "alice@example.com" },
+          { _id: "2", name: "Bob", email: "bob@example.com" },
+        ];
+      }
+    }
+    // REAL API
+    // const res = await axios.get(`/api/team-members/${userId}`, getConfig());
+    // return res.data;
+  },
+
+  deleteMember: async (memberId) => {
+    if (MOCK_MODE) {
+      await delay(300);
+      console.log("fetch members",memberId);
+      return { success: true };
+    }
+    // REAL API
+    // const res = await axios.delete(`/api/team-members/${memberId}`, getConfig());
+    // return res.data;
+  },
+
+  updateMember: async (id, updatedData) => {
+    if (MOCK_MODE) {
+      // Mock response for testing purposes
+      console.log("🔥 MOCK updateMember called with:", id, updatedData);
+      await delay(400); // Simulate delay
   
-  const authService = {
-    register,
-    registerProfile,
-    login,
-    logout,
-    getUserById,
-    getProfileById,
-    getLoginStatus,
-    updateUser,
-    fetchUserTypes,
-    changePassword,
-    fetchMembers,
-    deleteMember
-  };
+      // Mocking response for a specific user ID
+      if (id === "mock-user-id-123") {
+        return {
+          _id: id,
+          name: updatedData.name || "Mock Name",
+          email: updatedData.email || "mock@example.com",
+        };
+      }
   
-  export default authService;
+      // Simulating failure if mock user not found
+      throw { message: "Failed to update member. Mock not found." };
+    }
+  
+    // Real API (Uncomment for actual API call)
+    // const response = await axios.put(`/api/team-members/${id}`, updatedData);
+    // return response.data;
+  },
+
+
+
+};
+
+
+export default authService;

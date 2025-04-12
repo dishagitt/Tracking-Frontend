@@ -1,0 +1,55 @@
+/* Popup card container */
+.edit-form-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    width: 600px; /* Fixed width for the card */
+    max-width: 100%;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  }
+  
+  /* Card structure */
+  .edit-form-popup-card {
+    width: 100%; /* Ensure card takes up full width */
+    max-width: 100%;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    border-radius: 8px;
+    background-color: white;
+    padding: 1rem;
+    position: relative;
+  }
+  
+  /* Card Header */
+  .edit-form-popup-card .card-header {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Close button */
+  .edit-form-popup-card .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* Form inside card */
+  .edit-form-popup-card .card-body {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .register-form {
+    width: 100%; /* Ensure the form fills the card's width */
+  }
+  

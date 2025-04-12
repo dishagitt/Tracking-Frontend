@@ -13,7 +13,7 @@ const UserSidebar = ({ isOpen, onClose }) => {
   const MotionDiv = motion.div;
 
   const menuItems = [
-    { label: "Home", icon: <FiHome />, path: "/user/home" },
+    { label: "Home", icon: <FiHome />, path: "/app/home" },
     { label: "Register Team Member", icon: <MdPersonAddAlt1 />, path: "/app/register-team-member" },
     { label: "Manage Team", icon: <AiOutlineTeam />, path: "/user/manage-team" },
     { label: "Competition Progress", icon: <BiSolidReport />, path: "/user/progress" },
