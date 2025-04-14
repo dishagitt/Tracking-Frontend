@@ -251,7 +251,42 @@ const teamInfoSlice = createSlice({
       .addCase(saveTeamName.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+
+      // fetch departments
+      .addCase(fetchDepartments.pending, (state) => {
+        state.departments = [];
+        state.departmentsLoading = true;
+        state.departmentsError = null;
+      })
+      .addCase(fetchDepartments.fulfilled, (state, action) => {
+        state.departments = action.payload;
+        state.departmentsLoading = false;
+        state.departmentsError = null;
+      })
+      .addCase(fetchDepartments.rejected, (state, action) => {
+        state.departments = [];
+        state.departmentsLoading = false;
+        state.departmentsError = action.error.message;
+      })
+
+      // fetch branches
+      .addCase(fetchBranches.pending, (state) => {
+        state.branches = [];
+        state.branchesLoading = true;
+        state.branchesError = null;
+      })
+      .addCase(fetchBranches.fulfilled, (state, action) => {
+        state.branches = action.payload;
+        state.branchesLoading = false;
+        state.branchesError = null;
+      })
+      .addCase(fetchBranches.rejected, (state, action) => {
+        state.branches = [];
+        state.branchesLoading = false;
+        state.branchesError = action.error.message;
       });
+  
   },
 });
 
