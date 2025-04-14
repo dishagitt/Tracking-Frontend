@@ -1,5 +1,8 @@
 .user-navbar {
   background-color: #e69e05;
+  position: sticky;  
+  top: 0;
+  z-index: 1050;
 
   img {
     height: 30px;

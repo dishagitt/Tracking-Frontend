@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice"; 
 import sidebarReducer from "./features/sidebar/sidebarSlice"; 
 import winnerReducer from "./features/compDetails/compDetailsSlice"; 
+import teamInfoReducer from "./features/teamInfo/teamInfoSlice";
 // import userReducer from "./slices/userSlice"; // Import user slice
 import {
   persistStore,
@@ -30,6 +31,7 @@ const store = configureStore({
     auth: persistedAuthReducer, // Use persisted reducer
     sidebar: sidebarReducer, // User Sidebar reducer
     winners: winnerReducer, // winner details reducer
+    teamInfo: teamInfoReducer, // team Info reducer 
     // users: userReducer, // User Reducer
   },
   middleware: (getDefaultMiddleware) =>

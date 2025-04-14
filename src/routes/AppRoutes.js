@@ -8,7 +8,7 @@ export const AppRoutes = {
     USER_BASE: "/app",
     USER_HOME: "/app/home",
     REGISTER_TEAM_MEMBER: "/app/register-team-member",
-    TEAM_INFO: "/app/team-info",
+    TEAM_INFO: "/app/team-profile",
   
     // Admin base layout
     ADMIN_BASE: "/admin/app",

@@ -15,7 +15,7 @@ const UserSidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { label: "Home", icon: <FiHome />, path: "/app/home" },
     { label: "Register Team Member", icon: <MdPersonAddAlt1 />, path: "/app/register-team-member" },
-    { label: "Manage Team", icon: <AiOutlineTeam />, path: "/user/manage-team" },
+    { label: "Team Details", icon: <AiOutlineTeam />, path: "/app/team-profile" },
     { label: "Competition Progress", icon: <BiSolidReport />, path: "/user/progress" },
     { label: "Resource Request", icon: <FiUsers />, path: "/user/resources" },
     { label: "Team Chatroom", icon: <BsChatDots />, path: "/user/chatroom" },

@@ -1,0 +1,23 @@
+.team-profile-container {
+    background-color: #f7f9fc;
+  
+    .form-card {
+      border-radius: 12px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+      background: #fff;
+  
+      .card-header {
+        background-color: #f0f4f8;
+        font-weight: 500;
+      }
+  
+      .form-label {
+        font-weight: 500;
+      }
+  
+      .form-control:disabled {
+        background-color: #e9ecef;
+      }
+    }
+  }
+  

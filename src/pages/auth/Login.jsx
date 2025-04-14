@@ -94,7 +94,7 @@ const Login = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate("/register")}
                 >
-                  Register
+                  Register here!
                 </span>
               </div>
             )}

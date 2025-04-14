@@ -5,6 +5,7 @@ import Login from "../pages/auth/Login";
 import UserLayout from "../layout/UserLayout";
 import Home from "../pages/home/Home";
 import RegisterTeamMember from "../pages/teamLeader/registerTeamMember/RegisterTeamMember";
+import TeamProfile from "../pages/teamLeader/teamProfile/TeamProfile";
 
 const CustomRoutes = () => {
     return(
@@ -19,11 +20,21 @@ const CustomRoutes = () => {
              <Route path={AppRoutes.ADMIN_LOGIN} element={<Login />} />
              
              <Route path={AppRoutes.USER_BASE} element={<UserLayout />}>
-                <Route path={AppRoutes.USER_HOME} element={<Home />} />
+
+                <Route
+                    path={AppRoutes.USER_HOME}
+                    element={<Home />} 
+                />
                 <Route 
                     path={AppRoutes.REGISTER_TEAM_MEMBER} 
                     element={<RegisterTeamMember />} 
                 />
+                 <Route 
+                    path={AppRoutes.TEAM_INFO} 
+                    element={<TeamProfile />} 
+                />
+
+
              </Route>
 
 
