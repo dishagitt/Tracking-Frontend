@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import AdminNavbar from './AdminNavbar';
+import AdminFooter from './AdminFooter'; // Import AdminFooter
 import './AdminLayout.scss';
 
 const AdminLayout = () => {
@@ -10,7 +11,7 @@ const AdminLayout = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    navigate('/admin',  { replace: true });
+    navigate('/admin', { replace: true });
   };
 
   const toggleSidebar = () => {
@@ -25,6 +26,10 @@ const AdminLayout = () => {
         <div className="admin-content">
           <Outlet />
         </div>
+        
+        {/* Add Footer */}
+        <AdminFooter />
+
       </div>
     </div>
   );

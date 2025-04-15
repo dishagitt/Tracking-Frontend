@@ -4,6 +4,7 @@ import sidebarReducer from "./features/sidebar/sidebarSlice";
 import winnerReducer from "./features/compDetails/winnerCardSlice"; 
 import teamInfoReducer from "./features/teamInfo/teamInfoSlice";
 import competitionReducer from "./features/compDetails/competitionSlice";
+import adminReducer from "./features/admin/adminSlice";
 
 import {
   persistStore,
@@ -33,7 +34,8 @@ const store = configureStore({
     sidebar: sidebarReducer, // User Sidebar reducer
     winners: winnerReducer, // winner details reducer
     teamInfo: teamInfoReducer, // team Info reducer 
-    competition: competitionReducer // competiton progress tracker reducer
+    competition: competitionReducer, // competiton progress tracker reducer
+    admin: adminReducer, // admin reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

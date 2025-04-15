@@ -7,7 +7,7 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/admin', icon: <FaHome /> },
+    { name: 'Dashboard', path: '/admin/app/dashboard', icon: <FaHome /> },
     { name: 'Manage Users', path: '/admin/manage-users', icon: <FaUsers /> },
     { name: 'Announcement', path: '/admin/announcement', icon: <FaBullhorn /> },
     { name: 'Manage User Types', path: '/admin/manage-user-types', icon: <FaUserCog /> },

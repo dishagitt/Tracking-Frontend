@@ -11,6 +11,7 @@ import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRequest
 import UserProfile from "../components/userProfile/UserProfile";
 import AdminLayout from "../admin/layout/AdminLayout";
 import AdminProfile from "../admin/adminComponents/adminProfile/AdminProfile";
+import AdminDashboard from "../admin/AdminPages/adminDashboard/AdminDashboard";
 
 const CustomRoutes = () => {
     return(
@@ -55,6 +56,10 @@ const CustomRoutes = () => {
 
              <Route path={AppRoutes.ADMIN_BASE} element={<AdminLayout />}>
 
+                <Route 
+                    path={AppRoutes.ADMIN_DASHBOARD} 
+                    element={<AdminDashboard />} 
+                />
                 <Route 
                     path={AppRoutes.ADMIN_PROFILE} 
                     element={<AdminProfile />} 
