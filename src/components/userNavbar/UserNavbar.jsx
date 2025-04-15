@@ -54,7 +54,7 @@ const UserNavbar = ({ onSidebarToggle }) => {
               <FaUserCircle size={26} />
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom-dropdown-menu">
-              <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+              <Dropdown.Item href="/app/user-profile">Profile</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item href="#"  onClick={() => setShowChangePassword(true)}>Change Password</Dropdown.Item>
            {/* Change Password Modal */}
