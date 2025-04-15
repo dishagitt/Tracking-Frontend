@@ -15,6 +15,8 @@ const initialState = {
   message: "",
   teamMembers: [],
   memberLoading: false,
+  fetchingLoggedInUser: false,
+  loggedInUserError: null, 
 };
 
 // Async Thunks
@@ -107,6 +109,15 @@ export const updateMember = createAsyncThunk("auth/updateMember", async ({ id, u
   }
 });
 
+export const getLoggedInUser = createAsyncThunk("auth/getLoggedInUser", async (_, thunkAPI) => {
+  try {
+    return await authService.getLoggedInUser();
+  } catch (error) {
+    const message = error.response?.data?.message || error.message;
+    toast.error(message);
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 
 
@@ -219,12 +230,28 @@ const authSlice = createSlice({
         state.teamMembers = state.teamMembers.map((member) =>
           member._id === updatedMember._id ? updatedMember : member
         );
+        state.isSuccess = true;
         toast.success("Team member updated successfully!");
       })
       .addCase(updateMember.rejected, (state, action) => {
         state.memberLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+
+      // Get Logged In User
+      .addCase(getLoggedInUser.pending, (state) => {
+        state.fetchingLoggedInUser = true;
+        state.loggedInUserError = null;
+      })
+      .addCase(getLoggedInUser.fulfilled, (state, action) => {
+        state.fetchingLoggedInUser = false;
+        state.user = action.payload;
+      })
+      .addCase(getLoggedInUser.rejected, (state, action) => {
+        state.fetchingLoggedInUser = false;
+        state.loggedInUserError = action.payload || 'Could not fetch logged-in user data.';
+        state.user = null;
       });
   },
 });

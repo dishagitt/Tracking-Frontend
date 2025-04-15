@@ -1,23 +1,156 @@
+// .team-profile-container {
+//     background-color: #f7f9fc;
+  
+//     .form-card {
+//       border-radius: 12px;
+//       box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+//       background: #fff;
+  
+//       .card-header {
+//         background-color: #f0f4f8;
+//         font-weight: 500;
+//       }
+  
+//       .form-label {
+//         font-weight: 500;
+//       }
+  
+//       .form-control:disabled {
+//         background-color: #e9ecef;
+//       }
+//     }
+//   }
+  
 .team-profile-container {
-    background-color: #f7f9fc;
-  
-    .form-card {
-      border-radius: 12px;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-      background: #fff;
-  
-      .card-header {
-        background-color: #f0f4f8;
-        font-weight: 500;
-      }
-  
-      .form-label {
-        font-weight: 500;
-      }
-  
-      .form-control:disabled {
-        background-color: #e9ecef;
-      }
-    }
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  .form-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 25px;
+      color: #343a40;
+      text-align: center;
   }
-  
+
+  .form-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+
+      h3 {
+          font-size: 1.5rem;
+          margin-bottom: 15px;
+          color: #343a40;
+          border-bottom: 2px solid #007bff;
+          padding-bottom: 10px;
+      }
+
+      .form-group {
+          margin-bottom: 15px;
+          label {
+              display: block;
+              margin-bottom: 5px;
+              font-weight: bold;
+              color: #495057;
+          }
+          .form-control {
+              width: 100%;
+              padding: 0.75rem;
+              border: 1px solid #ced4da;
+              border-radius: 4px;
+              box-sizing: border-box;
+              font-size: 1rem;
+
+              &:focus {
+                  border-color: #007bff;
+                  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                  outline: none;
+              }
+
+              &.form-control-static {
+                  padding: 0.75rem 0;
+                  border: none;
+                  background-color: transparent;
+              }
+          }
+          select.form-control {
+              appearance: none; /* Remove default arrow */
+              background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" viewBox%3D"0 0 4 5"%3E%3Cpath fill%3D"%23343a40" d%3D"M2 0L0 2h4zm0 5L0 3h4z"/%3E%3C%2Fsvg%3E');
+              background-repeat: no-repeat;
+              background-position: right 0.75rem center;
+              background-size: 8px 10px;
+              padding-right: 2.25rem;
+          }
+      }
+
+      .btn {
+          padding: 0.75rem 1.5rem;
+          font-size: 1rem;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.15s ease-in-out;
+
+          &.btn-primary {
+              background-color: #007bff;
+              color: #fff;
+              border: 1px solid #007bff;
+              &:hover {
+                  background-color: #0056b3;
+                  border-color: #0056b3;
+              }
+          }
+
+          &.btn-secondary {
+              background-color: #6c757d;
+              color: #fff;
+              border: 1px solid #6c757d;
+              &:hover {
+                  background-color: #545b62;
+                  border-color: #4e555b;
+              }
+          }
+      }
+  }
+
+  .member-card {
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      background-color: #e9ecef;
+
+      h4 {
+          font-size: 1.25rem;
+          margin-bottom: 10px;
+          color: #343a40;
+          border-bottom: 1px solid #ced4da;
+          padding-bottom: 5px;
+      }
+  }
+
+  .mentor-details {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f1f3f5;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      p {
+          margin-bottom: 5px;
+          strong {
+              font-weight: bold;
+          }
+      }
+  }
+
+  .text-danger {
+      color: #dc3545;
+      margin-top: 10px;
+  }
+}

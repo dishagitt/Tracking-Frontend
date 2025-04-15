@@ -135,6 +135,16 @@ const authService = {
     // return response.data;
   },
 
+  // FETCH LOGGED-IN USER DATA
+  getLoggedInUser: async () => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return mockUser; // Return the mock user data
+    }
+    // REAL API
+    // const res = await axios.get("/api/auth/me", getConfig()); // Or your specific endpoint
+    // return res.data;
+  },
 
 
 };
