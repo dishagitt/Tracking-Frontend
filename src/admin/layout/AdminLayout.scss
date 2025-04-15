@@ -1,0 +1,26 @@
+.admin-layout {
+  display: flex;
+  height: 100vh;
+
+  .admin-main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+
+    &.sidebar-open {
+      margin-left: 250px; // Adjust content when sidebar is open
+    }
+
+    &.sidebar-closed {
+      margin-left: 60px; // Adjust content when sidebar is closed
+    }
+
+    .admin-content {
+      padding: 20px;
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-top: 70px; //  top margin to push content below navbar
+    }
+  }
+}

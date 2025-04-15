@@ -9,6 +9,8 @@ import TeamProfile from "../pages/teamLeader/teamProfile/TeamProfile";
 import HackathonStageTracker from "../pages/teamLeader/stageTracker/HackathonStageTracker";
 import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRequest";
 import UserProfile from "../components/userProfile/UserProfile";
+import AdminLayout from "../admin/layout/AdminLayout";
+import AdminProfile from "../admin/adminComponents/adminProfile/AdminProfile";
 
 const CustomRoutes = () => {
     return(
@@ -51,7 +53,15 @@ const CustomRoutes = () => {
 
              </Route>
 
+             <Route path={AppRoutes.ADMIN_BASE} element={<AdminLayout />}>
 
+                <Route 
+                    path={AppRoutes.ADMIN_PROFILE} 
+                    element={<AdminProfile />} 
+                />
+
+
+            </Route>
 
         </Routes>
     )
