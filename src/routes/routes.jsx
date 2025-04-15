@@ -6,6 +6,8 @@ import UserLayout from "../layout/UserLayout";
 import Home from "../pages/home/Home";
 import RegisterTeamMember from "../pages/teamLeader/registerTeamMember/RegisterTeamMember";
 import TeamProfile from "../pages/teamLeader/teamProfile/TeamProfile";
+import HackathonStageTracker from "../pages/teamLeader/stageTracker/HackathonStageTracker";
+import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRequest";
 
 const CustomRoutes = () => {
     return(
@@ -33,10 +35,16 @@ const CustomRoutes = () => {
                     path={AppRoutes.TEAM_INFO} 
                     element={<TeamProfile />} 
                 />
-
+                <Route 
+                    path={AppRoutes.HACKATHON_PROGRESS} 
+                    element={<HackathonStageTracker />} 
+                />
+                <Route 
+                    path={AppRoutes.RESOURCE_REQUEST} 
+                    element={<ResourceRequest />} 
+                />
 
              </Route>
-
 
 
 

@@ -9,6 +9,8 @@ export const AppRoutes = {
     USER_HOME: "/app/home",
     REGISTER_TEAM_MEMBER: "/app/register-team-member",
     TEAM_INFO: "/app/team-profile",
+    HACKATHON_PROGRESS: "/app/hackathon-progress",
+    RESOURCE_REQUEST: "/app/resource-request",
   
     // Admin base layout
     ADMIN_BASE: "/admin/app",

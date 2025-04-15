@@ -1014,8 +1014,6 @@ const TeamProfile = () => {
         problemStatementNo: "",
         department: "",
         domainBucket: "",
-        abstract: "",
-        ppt: null,
     });
     const [teamMemberData, setTeamMemberData] = useState([]);
     const [memberErrors, setMemberErrors] = useState([]);
@@ -1061,8 +1059,6 @@ const TeamProfile = () => {
             problemStatementNo: "",
             department: "",
             domainBucket: "",
-            abstract: "",
-            ppt: null,
         });
 
         const initialMemberData = Array.isArray(reduxTeamMemberData) && reduxTeamMemberData.length > 0
@@ -1147,8 +1143,6 @@ const TeamProfile = () => {
             problemStatementNo,
             department,
             domainBucket,
-            abstract,
-            ppt,
         } = competitionData;
         if (
             !hackathonType ||
@@ -1157,9 +1151,7 @@ const TeamProfile = () => {
             !problemTitle ||
             !problemStatementNo ||
             !department ||
-            !domainBucket ||
-            !abstract ||
-            !ppt
+            !domainBucket
         ) {
             return toast.error("Please fill all competition fields");
         }
@@ -1455,7 +1447,7 @@ const TeamProfile = () => {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="category">Category:</label>
+                        <label htmlFor="category">Problem Category:</label>
                         <select
                             className="form-control"
                             id="category"
@@ -1521,30 +1513,7 @@ const TeamProfile = () => {
                             }
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="abstract">Abstract:</label>
-                        <textarea
-                            className="form-control"
-                            id="abstract"
-                            placeholder="Enter abstract"
-                            value={competitionData.abstract}
-                            onChange={(e) =>
-                                setCompetitionData({ ...competitionData, abstract: e.target.value })
-                            }
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="ppt">PPT (PPTX/DOC):</label>
-                        <input
-                            type="file"
-                            className="form-control"
-                            id="ppt"
-                            accept=".pptx,.doc,.docx"
-                            onChange={(e) =>
-                                setCompetitionData({ ...competitionData, ppt: e.target.files[0] })
-                            }
-                        />
-                    </div>
+
                     <button className="btn btn-primary" onClick={handleCompetitionSave}>
                         Save Competition
                     </button>

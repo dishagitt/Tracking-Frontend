@@ -16,8 +16,8 @@ const UserSidebar = ({ isOpen, onClose }) => {
     { label: "Home", icon: <FiHome />, path: "/app/home" },
     { label: "Register Team Member", icon: <MdPersonAddAlt1 />, path: "/app/register-team-member" },
     { label: "Team Details", icon: <AiOutlineTeam />, path: "/app/team-profile" },
-    { label: "Competition Progress", icon: <BiSolidReport />, path: "/user/progress" },
-    { label: "Resource Request", icon: <FiUsers />, path: "/user/resources" },
+    { label: "Competition Progress", icon: <BiSolidReport />, path: "/app/hackathon-progress" },
+    { label: "Resource Request", icon: <FiUsers />, path: "/app/resource-request" },
     { label: "Team Chatroom", icon: <BsChatDots />, path: "/user/chatroom" },
     { label: "Help & Queries", icon: <FiHelpCircle />, path: "/user/home" },
   ];
