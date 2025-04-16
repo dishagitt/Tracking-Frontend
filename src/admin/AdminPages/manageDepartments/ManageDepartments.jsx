@@ -13,6 +13,7 @@ import ListCard from '../../adminComponents/modules/ListCard';
 const ManageDepartments = () => {
   const dispatch = useDispatch();
   const departments = useSelector(state => state.admin.departments);
+  console.log(departments);
 
   // State management
   const [newDepartment, setNewDepartment] = useState('');

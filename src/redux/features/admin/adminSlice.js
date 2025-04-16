@@ -10,7 +10,9 @@ export const fetchDashboardAnalytics = createAsyncThunk(
     try {
       return await adminService.getDashboardAnalytics();
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to fetch analytics");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to fetch analytics"
+      );
     }
   }
 );
@@ -22,7 +24,9 @@ export const fetchAllAnnouncements = createAsyncThunk(
     try {
       return await adminService.getAllAnnouncements();
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to fetch announcements");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to fetch announcements"
+      );
     }
   }
 );
@@ -33,7 +37,9 @@ export const addAnnouncement = createAsyncThunk(
     try {
       return await adminService.addAnnouncement(data);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to add announcement");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to add announcement"
+      );
     }
   }
 );
@@ -44,7 +50,9 @@ export const updateAnnouncement = createAsyncThunk(
     try {
       return await adminService.updateAnnouncement(data);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to update announcement");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to update announcement"
+      );
     }
   }
 );
@@ -55,7 +63,9 @@ export const deleteAnnouncement = createAsyncThunk(
     try {
       return await adminService.deleteAnnouncement(id);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to delete announcement");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to delete announcement"
+      );
     }
   }
 );
@@ -67,7 +77,9 @@ export const fetchAllUserTypes = createAsyncThunk(
     try {
       return await adminService.getAllUserTypes();
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to fetch user types");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to fetch user types"
+      );
     }
   }
 );
@@ -89,7 +101,9 @@ export const updateUserType = createAsyncThunk(
     try {
       return await adminService.updateUserType(data);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to update user type");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to update user type"
+      );
     }
   }
 );
@@ -100,7 +114,9 @@ export const deleteUserType = createAsyncThunk(
     try {
       return await adminService.deleteUserType(id);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to delete user type");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to delete user type"
+      );
     }
   }
 );
@@ -112,7 +128,9 @@ export const fetchAllBranches = createAsyncThunk(
     try {
       return await adminService.getAllBranches();
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to fetch branches");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to fetch branches"
+      );
     }
   }
 );
@@ -155,9 +173,12 @@ export const fetchAllDepartments = createAsyncThunk(
   "admin/fetchAllDepartments",
   async (_, thunkAPI) => {
     try {
-      return await adminService.getAllDepartments();
+      const response = await adminService.getAllDepartments();
+      return response;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to fetch departments");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to fetch departments"
+      );
     }
   }
 );
@@ -168,7 +189,9 @@ export const addDepartment = createAsyncThunk(
     try {
       return await adminService.addDepartment(department);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to add department");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to add department"
+      );
     }
   }
 );
@@ -179,7 +202,9 @@ export const updateDepartment = createAsyncThunk(
     try {
       return await adminService.updateDepartment(id, department);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to update department");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to update department"
+      );
     }
   }
 );
@@ -190,19 +215,20 @@ export const deleteDepartment = createAsyncThunk(
     try {
       return await adminService.deleteDepartment(id);
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to delete department");
+      return thunkAPI.rejectWithValue(
+        err.message || "Failed to delete department"
+      );
     }
   }
 );
-
-
-
 
 // INITIAL STATE
 const initialState = {
   analyticsData: null,
   announcements: [],
   userTypes: [],
+  branches: [],
+  departments: [],
   loading: false,
   error: null,
 };
@@ -316,48 +342,107 @@ const adminSlice = createSlice({
         state.error = action.payload;
       })
 
-            // Branches
-            .addCase(fetchAllBranches.pending, (state) => {
-              state.loading = true;
-              state.error = null;
-            })
-            .addCase(fetchAllBranches.fulfilled, (state, action) => {
-              state.loading = false;
-              state.branches = action.payload;
-            })
-            .addCase(fetchAllBranches.rejected, (state, action) => {
-              state.loading = false;
-              state.error = action.payload;
-            })
-      
-            .addCase(addBranch.fulfilled, (state, action) => {
-              state.branches.push(action.payload);
-            })
-            .addCase(updateBranch.fulfilled, (state, action) => {
-              const index = state.branches.findIndex(
-                (item) => item.id === action.payload.id
-              );
-              if (index !== -1) {
-                state.branches[index] = action.payload;
-              }
-            })
-            .addCase(deleteBranch.fulfilled, (state, action) => {
-              state.branches = state.branches.filter(
-                (item) => item.id !== action.meta.arg
-              );
-            })
-      
-            // Errors for Branch Add/Update/Delete
-            .addCase(addBranch.rejected, (state, action) => {
-              state.error = action.payload;
-            })
-            .addCase(updateBranch.rejected, (state, action) => {
-              state.error = action.payload;
-            })
-            .addCase(deleteBranch.rejected, (state, action) => {
-              state.error = action.payload;
-            });
-      
+      // Branches
+      .addCase(fetchAllBranches.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllBranches.fulfilled, (state, action) => {
+        state.loading = false;
+        state.branches = action.payload;
+      })
+      .addCase(fetchAllBranches.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(addBranch.fulfilled, (state, action) => {
+        state.branches.push(action.payload);
+      })
+      .addCase(updateBranch.fulfilled, (state, action) => {
+        const index = state.branches.findIndex(
+          (item) => item.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.branches[index] = action.payload;
+        }
+      })
+      .addCase(deleteBranch.fulfilled, (state, action) => {
+        state.branches = state.branches.filter(
+          (item) => item.id !== action.meta.arg
+        );
+      })
+
+      // Errors for Branch Add/Update/Delete
+      .addCase(addBranch.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(updateBranch.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(deleteBranch.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+
+      // Fetch all departments
+      .addCase(fetchAllDepartments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllDepartments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.departments = action.payload; // Assume payload is the list of departments
+      })
+      .addCase(fetchAllDepartments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message; // Set error message if the request fails
+      })
+
+      // Add a new department
+      .addCase(addDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.departments.push(action.payload); // Add the new department to the list
+      })
+      .addCase(addDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // Update an existing department
+      .addCase(updateDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedDepartment = action.payload;
+        const index = state.departments.findIndex(department => department.id === updatedDepartment.id);
+        if (index !== -1) {
+          state.departments[index] = updatedDepartment; // Update the department in the list
+        }
+      })
+      .addCase(updateDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // Delete a department
+      .addCase(deleteDepartment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteDepartment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.departments = state.departments.filter(department => department.id !== action.payload); // Remove the department by id
+      })
+      .addCase(deleteDepartment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
   },
 });
 

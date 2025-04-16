@@ -216,7 +216,7 @@ const adminService = {
     if (MOCK_MODE) {
       await delay(300);
       return [
-        { id: 1, name: "Computer Science" },
+        { id: 1, name: "EC" },
         { id: 2, name: "Mechanical" },
         { id: 3, name: "Electrical" },
       ];

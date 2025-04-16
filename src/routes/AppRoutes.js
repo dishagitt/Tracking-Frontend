@@ -21,6 +21,7 @@ export const AppRoutes = {
     ADMIN_ANNOUNCEMENT: "/admin/app/announcement",
     ADMIN_USER_TYPES: "/admin/app/manage-user-types",
     ADMIN_PROFILE: "/admin/app/admin-profile",
-    ADMIN_BRANCHES: "/admin/app/manage-branches"
+    ADMIN_BRANCHES: "/admin/app/manage-branches",
+    ADMIN_DEPARTMENTS: "/admin/app/manage-departments",
   };
   
