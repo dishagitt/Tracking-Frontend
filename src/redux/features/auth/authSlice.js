@@ -51,17 +51,6 @@ export const logoutUser = createAsyncThunk("auth/logout", async () => {
   toast.success("Logged out successfully!");
 });
 
-export const fetchUserTypes = createAsyncThunk("auth/fetchUserTypes", async (_, thunkAPI) => {
-  try {
-    const data = await authService.fetchUserTypes();
-    return data;
-  } catch (error) {
-    const message = error.response?.data?.message || error.message;
-    toast.error(message);
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
 export const changePassword = createAsyncThunk("auth/changePassword", async (data, thunkAPI) => {
   try {
     const res = await authService.changePassword(data);
@@ -168,20 +157,6 @@ const authSlice = createSlice({
       // Logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
-      })
-
-      // Fetch User Types
-      .addCase(fetchUserTypes.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchUserTypes.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.userTypes = action.payload;
-      })
-      .addCase(fetchUserTypes.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
       })
 
       // Change Password

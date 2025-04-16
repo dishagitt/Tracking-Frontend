@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, fetchUserTypes } from "../../redux/features/auth/authSlice";
+import { registerUser } from "../../redux/features/auth/authSlice";
+import { fetchAllUserTypes } from "../../redux/features/admin/adminSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Spinner, Form, Button, Container, Row, Col } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import { Spinner } from "react-bootstrap"; // Using Bootstrap Spinner for consistency
 
 const Register = ({
   presetUserType = "",
   hideUserTypeSelect = false,
   onSuccess = null,
-  onUpdate = null,               // NEW: for editing support
-  initialData = null             // NEW: for pre-filling form
+  onUpdate = null, // NEW: for editing support
+  initialData = null, // NEW: for pre-filling form
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, userTypes } = useSelector((state) => state.auth);
+  const { loading, error } = useSelector((state) => state.auth);
+  const userTypes = useSelector((state) => state.admin.userTypes);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -41,7 +43,7 @@ const Register = ({
 
   useEffect(() => {
     if (!hideUserTypeSelect && presetUserType !== "teamMember") {
-      dispatch(fetchUserTypes());
+      dispatch(fetchAllUserTypes());
     }
   }, [dispatch, hideUserTypeSelect, presetUserType]);
 
@@ -63,22 +65,27 @@ const Register = ({
   };
 
   const validateForm = () => {
-    const { firstName, lastName, contact, email, password, userType, idProof } = formData;
+    const { firstName, lastName, contact, email, password, userType, idProof } =
+      formData;
 
     const patterns = {
       name: /^[A-Za-z]+$/,
       contact: /^[0-9]{10}$/,
       email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/,
-      fileExt: /\.(jpg|jpeg)$/i // NEW: ID proof extension check
+      fileExt: /\.(jpg|jpeg)$/i, // NEW: ID proof extension check
     };
 
-    if (!patterns.name.test(firstName)) return toast.error("Invalid first name");
+    if (!patterns.name.test(firstName))
+      return toast.error("Invalid first name");
     if (!patterns.name.test(lastName)) return toast.error("Invalid last name");
-    if (!patterns.contact.test(contact)) return toast.error("Invalid 10-digit contact");
+    if (!patterns.contact.test(contact))
+      return toast.error("Invalid 10-digit contact");
     if (!patterns.email.test(email)) return toast.error("Invalid email");
     if (!initialData && !patterns.password.test(password))
-      return toast.error("Password must be 8+ chars with number & special char");
+      return toast.error(
+        "Password must be 8+ chars with number & special char"
+      );
     if (!userType) return toast.error("User type is required");
 
     if (!initialData || idProof) {
@@ -104,10 +111,14 @@ const Register = ({
         await onUpdate(data); // EDIT: Custom update handler
         toast.success("Team member updated!");
       } else {
-        const result = await dispatch(registerUser({ formData: data, navigate }));
+        const result = await dispatch(
+          registerUser({ formData: data, navigate })
+        );
 
         if (registerUser.fulfilled.match(result)) {
-          const isApprovalRequired = ["teamLeader", "mentor", "volunteer"].includes(formData.userType) && presetUserType !== "teamMember";
+          const isApprovalRequired =
+            ["teamLeader", "mentor", "volunteer"].includes(formData.userType) &&
+            presetUserType !== "teamMember";
 
           if (isApprovalRequired) {
             toast.success("Registration submitted! Awaiting approval.");
@@ -118,7 +129,9 @@ const Register = ({
           onSuccess ? onSuccess() : navigate("/login");
         } else {
           const msg = result.payload || "Registration failed";
-          toast.error(msg.includes("already exists") ? "User already exists" : msg);
+          toast.error(
+            msg.includes("already exists") ? "User already exists" : msg
+          );
         }
       }
     } catch (err) {
@@ -128,133 +141,180 @@ const Register = ({
   };
 
   return (
-    <Container className="mt-20">
-      <Row className="justify-content-center">
-        <Col md={5}>
-          <Form onSubmit={handleSubmit} encType="multipart/form-data" className="p-4 border rounded shadow">
-            <h3 className="text-center mb-4">{initialData ? "Edit Member" : "Register"}</h3>
-
-            <Form.Group className="mb-3">
-              <Form.Control
+    <div className="min-h-screen bg-gray-100 py-6 flex justify-center sm:py-12">
+      <div className="relative sm:max-w-3xl w-full sm:mx-auto mx-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="relative bg-white shadow-lg sm:rounded-3xl px-6 pt-12 pb-8 sm:px-12">
+          <h3 className="text-center text-2xl font-semibold text-gray-800 mb-8">
+            {initialData ? "Edit Member" : "Register"}
+          </h3>
+          <form onSubmit={handleSubmit} encType="multipart/form-data" className="grid grid-cols-6 gap-4">
+            <div className="col-span-6 sm:col-span-3">
+              <label htmlFor="firstName" className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+              <input
+                type="text"
+                id="firstName"
                 name="firstName"
                 placeholder="First Name"
                 value={formData.firstName}
                 onChange={handleChange}
                 required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Control
+            <div className="col-span-6 sm:col-span-3">
+              <label htmlFor="lastName" className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
                 name="lastName"
                 placeholder="Last Name"
                 value={formData.lastName}
                 onChange={handleChange}
                 required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Control
+            <div className="col-span-6 sm:col-span-3">
+              <label htmlFor="contact" className="block text-gray-700 text-sm font-bold mb-2">Contact Number</label>
+              <input
                 type="tel"
+                id="contact"
                 name="contact"
                 placeholder="Contact Number"
                 value={formData.contact}
                 onChange={handleChange}
                 required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Control
+            <div className="col-span-6 sm:col-span-3">
+              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+              <input
                 type="email"
+                id="email"
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
                 required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-            </Form.Group>
+            </div>
 
             {!initialData && (
-              <Form.Group className="mb-3">
-                <Form.Control
+              <div className="col-span-6 sm:col-span-3">
+                <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input
                   type="password"
+                  id="password"
                   name="password"
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-              </Form.Group>
+              </div>
             )}
 
             {presetUserType === "teamMember" ? (
-              <Form.Group className="mb-3">
-                <Form.Control
+              <div className="col-span-6 sm:col-span-3">
+                <label htmlFor="userType" className="block text-gray-700 text-sm font-bold mb-2">User Type</label>
+                <input
                   type="text"
+                  id="userType"
                   name="userType"
                   value="teamMember"
                   disabled
                   readOnly
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-200 cursor-not-allowed"
                 />
-              </Form.Group>
+              </div>
             ) : (
               !hideUserTypeSelect && (
-                <Form.Group className="mb-3">
-                  <Form.Select
+                <div className="col-span-6 sm:col-span-3">
+                  <label htmlFor="userType" className="block text-gray-700 text-sm font-bold mb-2">User Type</label>
+                  <select
+                    id="userType"
                     name="userType"
                     value={formData.userType}
                     onChange={handleChange}
                     required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
                     <option value="">Select User Type</option>
-                    {userTypes?.map((type, index) => (
-                      // Use index as a fallback key
-                      <option key={index} value={type}>
-                        {type}
+                    {userTypes?.map((userTypeObject, index) => (
+                      <option
+                        key={userTypeObject.id || index}
+                        value={userTypeObject.type || userTypeObject.name || ""}
+                      >
+                        {userTypeObject.type ||
+                          userTypeObject.name ||
+                          "Unknown Type"}
                       </option>
                     ))}
-                  </Form.Select>
-                </Form.Group>
+                  </select>
+                </div>
               )
-              
             )}
 
-            <Form.Group className="mb-3">
-              <Form.Control type="file" name="idProof" accept=".jpg,.jpeg" onChange={handleChange} />
+            <div className="col-span-6">
+              <label htmlFor="idProof" className="block text-gray-700 text-sm font-bold mb-2">ID Proof (JPG, JPEG)</label>
+              <input
+                type="file"
+                id="idProof"
+                name="idProof"
+                accept=".jpg,.jpeg"
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
               {formData.idProof && (
-                <div className="mt-2 d-flex justify-content-between align-items-center">
-                  <small className="text-muted">{formData.idProof.name}</small>
-                  <Button size="sm" variant="outline-danger" onClick={handleRemoveFile}>
+                <div className="mt-2 flex justify-between items-center">
+                  <small className="text-gray-600">{formData.idProof.name}</small>
+                  <button
+                    type="button"
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline text-xs"
+                    onClick={handleRemoveFile}
+                  >
                     Remove
-                  </Button>
+                  </button>
                 </div>
               )}
-            </Form.Group>
+            </div>
 
-            <Button type="submit" variant="primary" className="w-100" disabled={loading}>
-              {loading ? <Spinner animation="border" size="sm" /> : initialData ? "Update" : "Register"}
-            </Button>
+            <div className="col-span-6">
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                disabled={loading}
+              >
+                {loading ? <Spinner animation="border" size="sm" /> : initialData ? "Update" : "Register"}
+              </button>
+            </div>
 
             {!initialData && presetUserType !== "teamMember" && (
-              <div className="text-center mt-3">
+              <div className="col-span-6 text-center mt-3">
                 Already have an account?{" "}
-                <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => navigate("/login")}>
+                <span
+                  className="text-blue-500 cursor-pointer hover:underline"
+                  onClick={() => navigate("/login")}
+                >
                   Login here!
                 </span>
               </div>
             )}
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default Register;
-
-
 
 
 
@@ -272,7 +332,7 @@ export default Register;
 //     // onSuccess = null,
 //   }) => {
 
-//     const navigate = useNavigate(); 
+//     const navigate = useNavigate();
 
 //   const [formData, setFormData] = useState({
 //     firstName: "",
@@ -400,8 +460,6 @@ export default Register;
 //             autoComplete="new-password"
 //           />
 
-          
-
 //            {/* User Type Field */}
 //              {presetUserType === "teamMember" ? (
 //                  <input type="text"
@@ -412,8 +470,7 @@ export default Register;
 //                   readOnly
 //                   onChange={handleChange}
 //                 />
-               
-              
+
 //             ) : (
 //               !hideUserTypeSelect && (
 //                 <select
@@ -429,7 +486,6 @@ export default Register;
 //               </select>
 //               )
 //             )}
-
 
 //           <input
 //             type="file"
@@ -470,4 +526,3 @@ export default Register;
 // };
 
 // export default Register;
-

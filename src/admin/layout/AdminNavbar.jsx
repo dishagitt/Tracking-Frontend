@@ -40,7 +40,7 @@ const AdminNavbar = ({ onLogout }) => {
   return (
     <nav className="admin-navbar">
       <div className="admin-navbar-left">
-        <h2>Welcome, Admin</h2>
+        <h2 className='text-white'>Welcome, Admin</h2>
       </div>
 
       <div className="admin-navbar-right" ref={dropdownRef}>

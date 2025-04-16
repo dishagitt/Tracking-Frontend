@@ -19,7 +19,7 @@ export const AppRoutes = {
     ADMIN_BASE: "/admin/app",
     ADMIN_DASHBOARD: "/admin/app/dashboard",
     ADMIN_ANNOUNCEMENT: "/admin/app/announcement",
-    ADMIN_USER_TYPES: "/admin/app/user-types",
+    ADMIN_USER_TYPES: "/admin/app/manage-user-types",
     ADMIN_PROFILE: "/admin/app/admin-profile",
   };
   

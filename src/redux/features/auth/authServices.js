@@ -64,16 +64,6 @@ const authService = {
     // await axios.post("/api/auth/logout", {}, getConfig());
   },
 
-  fetchUserTypes: async () => {
-    if (MOCK_MODE) {
-      await delay(300);
-      return ["admin", "mentor", "team_leader", "team_member"];
-    }
-    // REAL API
-    // const res = await axios.get("/api/user-types", getConfig());
-    // return res.data;
-  },
-
   changePassword: async (data) => {
     if (MOCK_MODE) {
       await delay(500);

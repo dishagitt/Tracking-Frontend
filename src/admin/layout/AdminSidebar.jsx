@@ -8,13 +8,13 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
 
   const menuItems = [
     { name: 'Dashboard', path: '/admin/app/dashboard', icon: <FaHome /> },
-    { name: 'Manage Users', path: '/admin/manage-users', icon: <FaUsers /> },
-    { name: 'Announcement', path: '/admin/announcement', icon: <FaBullhorn /> },
-    { name: 'Manage User Types', path: '/admin/manage-user-types', icon: <FaUserCog /> },
-    { name: 'Manage Branch', path: '/admin/manage-branch', icon: <FaUniversity /> },
-    { name: 'Manage Department', path: '/admin/manage-department', icon: <FaBuilding /> },
-    { name: 'Manage Resource Request', path: '/admin/resource-request', icon: <FaClipboardList /> },
-    { name: 'Generate Reports', path: '/admin/reports', icon: <FaFileAlt /> },
+    { name: 'Manage Users', path: '/admin/app/manage-users', icon: <FaUsers /> },
+    { name: 'Announcement', path: '/admin/app/announcement', icon: <FaBullhorn /> },
+    { name: 'Manage User Types', path: '/admin/app/manage-user-types', icon: <FaUserCog /> },
+    { name: 'Manage Branch', path: '/admin/app/manage-branch', icon: <FaUniversity /> },
+    { name: 'Manage Department', path: '/admin/app/manage-department', icon: <FaBuilding /> },
+    { name: 'Manage Resource Request', path: '/admin/app/resource-request', icon: <FaClipboardList /> },
+    { name: 'Generate Reports', path: '/admin/app/reports', icon: <FaFileAlt /> },
   ];
 
   return (
