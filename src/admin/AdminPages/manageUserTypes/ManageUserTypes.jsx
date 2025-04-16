@@ -8,13 +8,12 @@ import {
   deleteUserType
 } from '../../../redux/features/admin/adminSlice';
 
-import AddCard from '../../modules/AddCard';
-import ListCard from '../../modules/ListCard';
+import AddCard from '../../adminComponents/modules/AddCard';
+import ListCard from '../../adminComponents/modules/ListCard';
 
 const ManageUserTypes = () => {
   const dispatch = useDispatch();
   const userTypes = useSelector(state => state.admin.userTypes);
-  console.log('Fetched userTypes:', userTypes);
 
   const [newUserType, setNewUserType] = useState('');
   const [editingId, setEditingId] = useState(null);

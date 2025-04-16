@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import adminService from "./adminService";
 
 // THUNKS
+
+// dashboard thunk
 export const fetchDashboardAnalytics = createAsyncThunk(
   "admin/fetchDashboardAnalytics",
   async (_, thunkAPI) => {
@@ -13,6 +15,7 @@ export const fetchDashboardAnalytics = createAsyncThunk(
   }
 );
 
+// Annoncement Thunks
 export const fetchAllAnnouncements = createAsyncThunk(
   "admin/fetchAllAnnouncements",
   async (_, thunkAPI) => {
@@ -101,6 +104,99 @@ export const deleteUserType = createAsyncThunk(
     }
   }
 );
+
+// Branch Thunks
+export const fetchAllBranches = createAsyncThunk(
+  "admin/fetchAllBranches",
+  async (_, thunkAPI) => {
+    try {
+      return await adminService.getAllBranches();
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to fetch branches");
+    }
+  }
+);
+
+export const addBranch = createAsyncThunk(
+  "admin/addBranch",
+  async (data, thunkAPI) => {
+    try {
+      return await adminService.addBranch(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to add branch");
+    }
+  }
+);
+
+export const updateBranch = createAsyncThunk(
+  "admin/updateBranch",
+  async (data, thunkAPI) => {
+    try {
+      return await adminService.updateBranch(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to update branch");
+    }
+  }
+);
+
+export const deleteBranch = createAsyncThunk(
+  "admin/deleteBranch",
+  async (id, thunkAPI) => {
+    try {
+      return await adminService.deleteBranch(id);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to delete branch");
+    }
+  }
+);
+
+// Department Thunks
+export const fetchAllDepartments = createAsyncThunk(
+  "admin/fetchAllDepartments",
+  async (_, thunkAPI) => {
+    try {
+      return await adminService.getAllDepartments();
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to fetch departments");
+    }
+  }
+);
+
+export const addDepartment = createAsyncThunk(
+  "admin/addDepartment",
+  async (department, thunkAPI) => {
+    try {
+      return await adminService.addDepartment(department);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to add department");
+    }
+  }
+);
+
+export const updateDepartment = createAsyncThunk(
+  "admin/updateDepartment",
+  async ({ id, department }, thunkAPI) => {
+    try {
+      return await adminService.updateDepartment(id, department);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to update department");
+    }
+  }
+);
+
+export const deleteDepartment = createAsyncThunk(
+  "admin/deleteDepartment",
+  async (id, thunkAPI) => {
+    try {
+      return await adminService.deleteDepartment(id);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Failed to delete department");
+    }
+  }
+);
+
+
+
 
 // INITIAL STATE
 const initialState = {
@@ -218,7 +314,50 @@ const adminSlice = createSlice({
       })
       .addCase(deleteUserType.rejected, (state, action) => {
         state.error = action.payload;
-      });
+      })
+
+            // Branches
+            .addCase(fetchAllBranches.pending, (state) => {
+              state.loading = true;
+              state.error = null;
+            })
+            .addCase(fetchAllBranches.fulfilled, (state, action) => {
+              state.loading = false;
+              state.branches = action.payload;
+            })
+            .addCase(fetchAllBranches.rejected, (state, action) => {
+              state.loading = false;
+              state.error = action.payload;
+            })
+      
+            .addCase(addBranch.fulfilled, (state, action) => {
+              state.branches.push(action.payload);
+            })
+            .addCase(updateBranch.fulfilled, (state, action) => {
+              const index = state.branches.findIndex(
+                (item) => item.id === action.payload.id
+              );
+              if (index !== -1) {
+                state.branches[index] = action.payload;
+              }
+            })
+            .addCase(deleteBranch.fulfilled, (state, action) => {
+              state.branches = state.branches.filter(
+                (item) => item.id !== action.meta.arg
+              );
+            })
+      
+            // Errors for Branch Add/Update/Delete
+            .addCase(addBranch.rejected, (state, action) => {
+              state.error = action.payload;
+            })
+            .addCase(updateBranch.rejected, (state, action) => {
+              state.error = action.payload;
+            })
+            .addCase(deleteBranch.rejected, (state, action) => {
+              state.error = action.payload;
+            });
+      
   },
 });
 

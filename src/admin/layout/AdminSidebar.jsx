@@ -11,8 +11,8 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
     { name: 'Manage Users', path: '/admin/app/manage-users', icon: <FaUsers /> },
     { name: 'Announcement', path: '/admin/app/announcement', icon: <FaBullhorn /> },
     { name: 'Manage User Types', path: '/admin/app/manage-user-types', icon: <FaUserCog /> },
-    { name: 'Manage Branch', path: '/admin/app/manage-branch', icon: <FaUniversity /> },
-    { name: 'Manage Department', path: '/admin/app/manage-department', icon: <FaBuilding /> },
+    { name: 'Manage Branches', path: '/admin/app/manage-branches', icon: <FaUniversity /> },
+    { name: 'Manage Departments', path: '/admin/app/manage-department', icon: <FaBuilding /> },
     { name: 'Manage Resource Request', path: '/admin/app/resource-request', icon: <FaClipboardList /> },
     { name: 'Generate Reports', path: '/admin/app/reports', icon: <FaFileAlt /> },
   ];

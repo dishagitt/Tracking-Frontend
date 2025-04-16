@@ -100,10 +100,9 @@ const adminService = {
     // return res.data;
   },
 
-  // API calls for managing user types
+  // ----------- USER TYPES -----------
   getAllUserTypes: async () => {
     if (MOCK_MODE) {
-      // Simulating API response for user types
       return [
         { id: 1, name: "Team Leader" },
         { id: 2, name: "Mentor" },
@@ -155,6 +154,119 @@ const adminService = {
     // const res = await axios.delete(`/api/admin/user-types/${id}`, getAuthHeaders());
     // return res.data;
   },
+
+  // ----------- BRANCHES -----------
+  getAllBranches: async () => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return [
+        { id: 1, name: "Computer Science" },
+        { id: 2, name: "Mechanical" },
+        { id: 3, name: "Electrical" },
+      ];
+    }
+
+    // REAL API
+    // const res = await axios.get("/api/admin/branches", getAuthHeaders());
+    // return res.data;
+  },
+
+  addBranch: async (data) => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        ...data,
+      };
+    }
+
+    // REAL API
+    // const res = await axios.post("/api/admin/branches", data, getAuthHeaders());
+    // return res.data;
+  },
+
+  updateBranch: async (data) => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return {
+        ...data,
+        updated: true,
+      };
+    }
+
+    // REAL API
+    // const res = await axios.put(`/api/admin/branches/${data.id}`, data, getAuthHeaders());
+    // return res.data;
+  },
+
+  deleteBranch: async (id) => {
+    console.log(id);
+    if (MOCK_MODE) {
+      await delay(200);
+      return { success: true };
+    }
+
+    // REAL API
+    // const res = await axios.delete(`/api/admin/branches/${id}`, getAuthHeaders());
+    // return res.data;
+  },
+
+  // ----------- DEPARTMENTS ----------- 
+  getAllDepartments: async () => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return [
+        { id: 1, name: "Computer Science" },
+        { id: 2, name: "Mechanical" },
+        { id: 3, name: "Electrical" },
+      ];
+    }
+
+    // REAL API
+    // const res = await axios.get("/api/admin/departments", getAuthHeaders());
+    // return res.data;
+  },
+
+  addDepartment: async (data) => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        ...data,
+      };
+    }
+
+    // REAL API
+    // const res = await axios.post("/api/admin/departments", data, getAuthHeaders());
+    // return res.data;
+  },
+
+  updateDepartment: async (data) => {
+    if (MOCK_MODE) {
+      await delay(300);
+      return {
+        ...data,
+        updated: true,
+      };
+    }
+
+    // REAL API
+    // const res = await axios.put(`/api/admin/departments/${data.id}`, data, getAuthHeaders());
+    // return res.data;
+  },
+
+  deleteDepartment: async (id) => {
+    console.log(id);
+    if (MOCK_MODE) {
+      await delay(200);
+      return { success: true };
+    }
+
+    // REAL API
+    // const res = await axios.delete(`/api/admin/departments/${id}`, getAuthHeaders());
+    // return res.data;
+  },
+
 };
 
 export default adminService;

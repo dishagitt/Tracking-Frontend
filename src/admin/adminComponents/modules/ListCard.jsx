@@ -2,7 +2,7 @@ import './ListCard.scss';
 
 const ListCard = ({
   title,
-  items,
+  items = [], // default to empty array to avoid undefined errors
   onEdit,
   onDelete,
   editingId,
@@ -13,11 +13,11 @@ const ListCard = ({
 }) => {
   const handleCancel = () => {
     setEditedValue(''); // Clear the input value
-    onCancelEdit(); // Reset the editingId in the parent component
+    onCancelEdit();     // Reset the editingId in the parent component
   };
 
   return (
-    <div className="card">
+    <div className="card list-card">
       <h3>{title}</h3>
       {items.length === 0 ? (
         <p>No items found.</p>
@@ -34,7 +34,7 @@ const ListCard = ({
                   />
                   <div className="actions">
                     <button onClick={() => onSaveEdit(item.id)}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button> {/* Cancel button functionality */}
+                    <button onClick={handleCancel}>Cancel</button>
                   </div>
                 </>
               ) : (

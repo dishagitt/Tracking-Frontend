@@ -14,6 +14,7 @@ import AdminProfile from "../admin/adminComponents/adminProfile/AdminProfile";
 import AdminDashboard from "../admin/AdminPages/adminDashboard/AdminDashboard";
 import AdminAnnouncement from "../admin/AdminPages/announcement/AdminAnnouncement";
 import ManageUserTypes from "../admin/AdminPages/manageUserTypes/ManageUserTypes";
+import ManageBranches from "../admin/AdminPages/manageBranches/ManageBranches";
 
 const CustomRoutes = () => {
     return(
@@ -74,6 +75,10 @@ const CustomRoutes = () => {
                 <Route 
                     path={AppRoutes.ADMIN_USER_TYPES} 
                     element={<ManageUserTypes />} 
+                />
+                <Route 
+                    path={AppRoutes.ADMIN_BRANCHES} 
+                    element={<ManageBranches />} 
                 />
 
             </Route>
