@@ -1,91 +1,148 @@
 /* ListCard.scss */
 
 .card {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  
-    h3 {
-      margin-bottom: 1rem;
-      font-size: 1.25rem;
-      color: #2c3e50;
-    }
-  
-    .list-group {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-  
-      .list-group-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 0.75rem 1rem;
-        margin-bottom: 0.75rem;
-        border: 1px solid #ddd;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    color: #2c3e50;
+  }
+
+  .list-group {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .list-group-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+
+      span {
+        font-weight: 500;
+        color: #34495e;
+      }
+
+      input {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        margin-right: 1rem;
+        border: 1px solid #ccc;
         border-radius: 6px;
-        background-color: #f9f9f9;
-  
-        span {
-          font-weight: 500;
-          color: #34495e;
+        font-size: 1rem;
+
+        &:focus {
+          outline: none;
+          border-color: #007bff;
+          box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
         }
-  
-        input {
-          flex: 1;
-          padding: 0.5rem 1rem;
-          margin-right: 1rem;
-          border: 1px solid #ccc;
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+
+        button {
+          padding: 0.4rem 0.9rem;
+          font-size: 0.9rem;
+          border: none;
           border-radius: 6px;
-          font-size: 1rem;
-  
-          &:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
-          }
-        }
-  
-        .actions {
-          display: flex;
-          gap: 0.5rem;
-          margin-top: 0.5rem;
-  
-          button {
-            padding: 0.4rem 0.9rem;
-            font-size: 0.9rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-  
-            &:nth-child(1) {
-              background-color: #28a745;
-              color: #fff;
-  
-              &:hover {
-                background-color: #218838;
-              }
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:nth-child(1) {
+            background-color: #28a745;
+            color: #fff;
+
+            &:hover {
+              background-color: #218838;
             }
-  
-            &:nth-child(2) {
-              background-color: #dc3545;
-              color: #fff;
-  
-              &:hover {
-                background-color: #c82333;
-              }
+          }
+
+          &:nth-child(2) {
+            background-color: #dc3545;
+            color: #fff;
+
+            &:hover {
+              background-color: #c82333;
             }
           }
         }
       }
     }
-  
-    p {
-      font-style: italic;
-      color: #6c757d;
-    }
+  }
+
+  p {
+    font-style: italic;
+    color: #6c757d;
   }
   
+  /* Delete Confirmation Popup Styles */
+  .delete-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+
+    .popup-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 320px;
+      max-width: 90%;
+      margin: 10% auto;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .popup-actions {
+        margin-top: 1rem;
+
+        button {
+          margin: 0 0.5rem;
+          padding: 0.5rem 1.2rem;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+
+        .confirm {
+          background-color: #dc3545;
+          color: #fff;
+
+          &:hover {
+            background-color: #c82333;
+          }
+        }
+
+        .cancel {
+          background-color: #6c757d;
+          color: #fff;
+
+          &:hover {
+            background-color: #5a6268;
+          }
+        }
+      }
+    }
+  }
+}

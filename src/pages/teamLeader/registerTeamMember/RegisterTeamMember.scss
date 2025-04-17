@@ -213,11 +213,11 @@
   
     .grid.grid-cols-6.gap-4 {
       display: grid !important;
+      gap: 1.5rem !important;
       grid-template-columns: repeat(1, minmax(0, 1fr));
       @media (min-width: 768px) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      gap: 1.5rem !important;
     }
   
     .shadow.appearance-none.border {
@@ -344,18 +344,20 @@
       }
     }
   }
-  // .modal {
-  //   position: fixed !important; /* Ensure it's fixed to the viewport */
-  //   top: 50% !important;
-  //   left: 50% !important;
-  //   transform: translate(-50%, -50%) !important;
-  //   z-index: 1050 !important; /* Ensure it's above other elements */
-  // }
+  .modal-content {
+    border-radius: 1rem;
+  }
   
-  // .modal-dialog {
-  //   margin: 30px auto !important; /* Adjust margins around the centered dialog */
-  // }
+  .modal-header {
+    background-color: #f3f4f6;
+    border-bottom: 1px solid #ddd;
+  }
   
-  // .modal.fade.show { /* Ensure visibility */
-  //   display: block !important;
-  // }
+  .modal-footer {
+    background-color: #f9fafb;
+  }
+  
+  .modal-body {
+    font-size: 1rem;
+    color: #333;
+  }

@@ -7,7 +7,6 @@ import Home from "../pages/home/Home";
 import RegisterTeamMember from "../pages/teamLeader/registerTeamMember/RegisterTeamMember";
 import TeamProfile from "../pages/teamLeader/teamProfile/TeamProfile";
 import HackathonStageTracker from "../pages/teamLeader/stageTracker/HackathonStageTracker";
-import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRequest";
 import UserProfile from "../components/userProfile/UserProfile";
 import AdminLayout from "../admin/layout/AdminLayout";
 import AdminProfile from "../admin/adminComponents/adminProfile/AdminProfile";
@@ -16,7 +15,10 @@ import AdminAnnouncement from "../admin/AdminPages/announcement/AdminAnnouncemen
 import ManageUserTypes from "../admin/AdminPages/manageUserTypes/ManageUserTypes";
 import ManageBranches from "../admin/AdminPages/manageBranches/ManageBranches";
 import ManageDepartments from "../admin/AdminPages/manageDepartments/ManageDepartments";
-// import ManageDepartments from "../admin/AdminPages/manageDepartments/ManageDepartments";
+import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRquest";
+// import ResReq from "../pages/teamLeader/resourceRequest/ResReq";
+
+
 
 
 const CustomRoutes = () => {

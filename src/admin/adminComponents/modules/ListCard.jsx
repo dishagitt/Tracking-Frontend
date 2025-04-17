@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import './ListCard.scss';
 
 const ListCard = ({
   title,
-  items = [], // default to empty array to avoid undefined errors
+  items = [],
   onEdit,
   onDelete,
   editingId,
@@ -11,9 +12,30 @@ const ListCard = ({
   onSaveEdit,
   onCancelEdit
 }) => {
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
   const handleCancel = () => {
-    setEditedValue(''); // Clear the input value
-    onCancelEdit();     // Reset the editingId in the parent component
+    setEditedValue('');
+    onCancelEdit();
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteItemId(id);
+    setShowDeletePopup(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteItemId !== null) {
+      onDelete(deleteItemId);
+      setShowDeletePopup(false);
+      setDeleteItemId(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeletePopup(false);
+    setDeleteItemId(null);
   };
 
   return (
@@ -42,13 +64,26 @@ const ListCard = ({
                   <span>{item.name}</span>
                   <div className="actions">
                     <button onClick={() => onEdit(item.id, item.name)}>Edit</button>
-                    <button onClick={() => onDelete(item.id)}>Delete</button>
+                    <button onClick={() => handleDeleteClick(item.id)}>Delete</button>
                   </div>
                 </>
               )}
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Delete Confirmation Popup */}
+      {showDeletePopup && (
+        <div className="delete-popup">
+          <div className="popup-card">
+            <p>Are you sure you want to delete this item?</p>
+            <div className="popup-actions">
+              <button className="confirm" onClick={confirmDelete}>Yes</button>
+              <button className="cancel" onClick={cancelDelete}>No</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

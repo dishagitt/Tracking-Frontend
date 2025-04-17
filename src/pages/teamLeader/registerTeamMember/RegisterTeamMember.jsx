@@ -126,17 +126,15 @@
 
 
 
-
-
 import React, { useEffect, useState } from "react";
 import Register from "../../auth/Register";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMembers, deleteMember, updateMember } from "../../../redux/features/auth/authSlice";
 import EditTeamMemberPopup from "../../../components/cards/EditTeamMemberPopup";
-import { Button, Table } from "react-bootstrap";
+import { Button, Table, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./RegisterTeamMember.scss"
+import "./RegisterTeamMember.scss";
 
 const RegisterTeamMember = () => {
   const dispatch = useDispatch();
@@ -145,6 +143,8 @@ const RegisterTeamMember = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for delete confirmation modal
+  const [memberToDelete, setMemberToDelete] = useState(null); // The member that is to be deleted
 
   useEffect(() => {
     const mockUserId = "mock-user-id-123"; // mock user ID for testing
@@ -161,21 +161,34 @@ const RegisterTeamMember = () => {
       .unwrap()
       .then(() => {
         toast.success("Member updated successfully");
-        dispatch(fetchMembers(teamLeaderId));
+        dispatch(fetchMembers(teamLeaderId)); // Fetch updated members list after successful update
       })
       .catch(() => toast.error("Failed to update member"));
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this member?")) {
-      dispatch(deleteMember(id))
+  const handleDeleteClick = (member) => {
+    setMemberToDelete(member); // Set the selected member for deletion
+    setShowDeleteModal(true); // Show delete confirmation modal
+  };
+
+  const handleDelete = () => {
+    if (memberToDelete) {
+      // Ensure we are deleting only the selected member
+      dispatch(deleteMember(memberToDelete._id)) // Ensure the correct ID is passed
         .unwrap()
         .then(() => {
-          toast.success("Member deleted");
-          dispatch(fetchMembers(teamLeaderId));
+          dispatch(fetchMembers(teamLeaderId)); // Refetch the updated member list after deletion
+          setShowDeleteModal(false); // Close delete modal after successful deletion
         })
-        .catch(() => toast.error("Failed to delete member"));
+        .catch(() => {
+          toast.error("Failed to delete member");
+          setShowDeleteModal(false); // Close the modal if deletion fails
+        });
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false); // Close delete modal without deletion
   };
 
   return (
@@ -210,7 +223,7 @@ const RegisterTeamMember = () => {
                       <Button variant="warning" size="sm" className="me-2" onClick={() => handleEditClick(member)}>
                         Edit
                       </Button>
-                      <Button variant="danger" size="sm" onClick={() => handleDelete(member._id)}>
+                      <Button variant="danger" size="sm" onClick={() => handleDeleteClick(member)}>
                         Delete
                       </Button>
                     </td>
@@ -233,6 +246,24 @@ const RegisterTeamMember = () => {
         memberData={selectedMember}
         handleUpdate={handleUpdateMember}
       />
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={handleCancelDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this member? This action cannot be undone.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancelDelete}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
