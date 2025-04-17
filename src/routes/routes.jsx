@@ -16,7 +16,7 @@ import ManageUserTypes from "../admin/AdminPages/manageUserTypes/ManageUserTypes
 import ManageBranches from "../admin/AdminPages/manageBranches/ManageBranches";
 import ManageDepartments from "../admin/AdminPages/manageDepartments/ManageDepartments";
 import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRquest";
-// import ResReq from "../pages/teamLeader/resourceRequest/ResReq";
+import ManageResourceRequest from "../admin/AdminPages/manageResorceRequest/ManageResourceRequest";
 
 
 
@@ -88,6 +88,10 @@ const CustomRoutes = () => {
                 <Route 
                     path={AppRoutes.ADMIN_DEPARTMENTS} 
                     element={<ManageDepartments />} 
+                />
+                <Route 
+                    path={AppRoutes.ADMIN_REQUESTRESOURCE} 
+                    element={<ManageResourceRequest />} 
                 />
 
             </Route>

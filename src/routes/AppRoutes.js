@@ -23,5 +23,6 @@ export const AppRoutes = {
     ADMIN_PROFILE: "/admin/app/admin-profile",
     ADMIN_BRANCHES: "/admin/app/manage-branches",
     ADMIN_DEPARTMENTS: "/admin/app/manage-departments",
+    ADMIN_REQUESTRESOURCE: "/admin/app/manage-resource-request",
   };
   
