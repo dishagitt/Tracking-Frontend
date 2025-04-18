@@ -8,13 +8,13 @@ const AdminSidebar = ({ isOpen, toggleSidebar }) => {
 
   const menuItems = [
     { name: 'Dashboard', path: '/admin/app/dashboard', icon: <FaHome /> },
-    { name: 'Manage Users', path: '/admin/app/manage-users', icon: <FaUsers /> },
+    { name: 'Manage Login Request', path: '/admin/app/manage-user-login-request', icon: <FaUsers /> },
     { name: 'Announcement', path: '/admin/app/announcement', icon: <FaBullhorn /> },
     { name: 'Manage User Types', path: '/admin/app/manage-user-types', icon: <FaUserCog /> },
     { name: 'Manage Branches', path: '/admin/app/manage-branches', icon: <FaUniversity /> },
     { name: 'Manage Departments', path: '/admin/app/manage-departments', icon: <FaBuilding /> },
     { name: 'Manage Resource Request', path: '/admin/app/manage-resource-request', icon: <FaClipboardList /> },
-    { name: 'Generate Reports', path: '/admin/app/reports', icon: <FaFileAlt /> },
+    { name: 'Generate Reports', path: '/admin/app/generate-reports', icon: <FaFileAlt /> },
   ];
 
   return (

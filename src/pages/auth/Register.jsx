@@ -4,21 +4,23 @@ import { registerUser } from "../../redux/features/auth/authSlice";
 import { fetchAllUserTypes } from "../../redux/features/admin/adminSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
-import { Spinner } from "react-bootstrap"; // Using Bootstrap Spinner for consistency
-
+import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "react-bootstrap";
+import { fetchRegisteredMentors } from "../../redux/features/teamInfo/teamInfoSlice";
 const Register = ({
   presetUserType = "",
   hideUserTypeSelect = false,
   onSuccess = null,
-  onUpdate = null, // NEW: for editing support
-  initialData = null, // NEW: for pre-filling form
+  onUpdate = null,
+  initialData = null,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { loading, error } = useSelector((state) => state.auth);
   const userTypes = useSelector((state) => state.admin.userTypes);
+  const {mentors = []} = useSelector((state) => state.teamInfo);
+  console.log(mentors);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -28,6 +30,7 @@ const Register = ({
     password: "",
     userType: presetUserType || "",
     idProof: null,
+    mentor: "",
   });
 
   // NEW: Prefill data if editing
@@ -46,6 +49,13 @@ const Register = ({
       dispatch(fetchAllUserTypes());
     }
   }, [dispatch, hideUserTypeSelect, presetUserType]);
+
+  // fetch mentors on load or when usertype becomes "team-leader"
+  useEffect(() => {
+    if (formData.userType === "Team Leader") {
+      dispatch(fetchRegisteredMentors());
+    }
+  }, [formData.userType, dispatch]);
 
   useEffect(() => {
     if (error) toast.error(error);
@@ -100,6 +110,10 @@ const Register = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    if (formData.userType === 'teamLeader' && !formData.mentor) {
+      toast.error('Please select a mentor for team leader');
+      return;
+    }
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -111,7 +125,7 @@ const Register = ({
         await onUpdate(data); // EDIT: Custom update handler
         toast.success("Team member updated!");
       } else {
-        const result = await dispatch(
+        const result =  dispatch(
           registerUser({ formData: data, navigate })
         );
 
@@ -148,9 +162,18 @@ const Register = ({
           <h3 className="text-center text-2xl font-semibold text-gray-800 mb-8">
             {initialData ? "Edit Member" : "Register"}
           </h3>
-          <form onSubmit={handleSubmit} encType="multipart/form-data" className="grid grid-cols-6 gap-4">
+          <form
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+            className="grid grid-cols-6 gap-4"
+          >
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="firstName" className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+              <label
+                htmlFor="firstName"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                First Name
+              </label>
               <input
                 type="text"
                 id="firstName"
@@ -164,7 +187,12 @@ const Register = ({
             </div>
 
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="lastName" className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+              <label
+                htmlFor="lastName"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Last Name
+              </label>
               <input
                 type="text"
                 id="lastName"
@@ -178,7 +206,12 @@ const Register = ({
             </div>
 
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="contact" className="block text-gray-700 text-sm font-bold mb-2">Contact Number</label>
+              <label
+                htmlFor="contact"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Contact Number
+              </label>
               <input
                 type="tel"
                 id="contact"
@@ -192,7 +225,12 @@ const Register = ({
             </div>
 
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+              <label
+                htmlFor="email"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -207,7 +245,12 @@ const Register = ({
 
             {!initialData && (
               <div className="col-span-6 sm:col-span-3">
-                <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <label
+                  htmlFor="password"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Password
+                </label>
                 <input
                   type="password"
                   id="password"
@@ -223,7 +266,12 @@ const Register = ({
 
             {presetUserType === "teamMember" ? (
               <div className="col-span-6 sm:col-span-3">
-                <label htmlFor="userType" className="block text-gray-700 text-sm font-bold mb-2">User Type</label>
+                <label
+                  htmlFor="userType"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  User Type
+                </label>
                 <input
                   type="text"
                   id="userType"
@@ -237,7 +285,12 @@ const Register = ({
             ) : (
               !hideUserTypeSelect && (
                 <div className="col-span-6 sm:col-span-3">
-                  <label htmlFor="userType" className="block text-gray-700 text-sm font-bold mb-2">User Type</label>
+                  <label
+                    htmlFor="userType"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    User Type
+                  </label>
                   <select
                     id="userType"
                     name="userType"
@@ -263,7 +316,12 @@ const Register = ({
             )}
 
             <div className="col-span-6">
-              <label htmlFor="idProof" className="block text-gray-700 text-sm font-bold mb-2">ID Proof (JPG, JPEG)</label>
+              <label
+                htmlFor="idProof"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                ID Proof (JPG, JPEG)
+              </label>
               <input
                 type="file"
                 id="idProof"
@@ -274,7 +332,9 @@ const Register = ({
               />
               {formData.idProof && (
                 <div className="mt-2 flex justify-between items-center">
-                  <small className="text-gray-600">{formData.idProof.name}</small>
+                  <small className="text-gray-600">
+                    {formData.idProof.name}
+                  </small>
                   <button
                     type="button"
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline text-xs"
@@ -286,13 +346,45 @@ const Register = ({
               )}
             </div>
 
+            {formData.userType === "Team Leader" && (
+              <div className="col-span-6 sm:col-span-3">
+              <label
+                htmlFor="userType"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Mentor
+              </label>
+                <select
+                  id="mentor"
+                  name="mentor"
+                  value={formData.mentor}
+                  onChange={handleChange}
+                  required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="">Select Mentor</option>
+                  {mentors?.map((mentor, index) => (
+                    <option key={index} value={mentor._id}>
+                      {mentor.firstName} {mentor.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <div className="col-span-6">
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
                 disabled={loading}
               >
-                {loading ? <Spinner animation="border" size="sm" /> : initialData ? "Update" : "Register"}
+                {loading ? (
+                  <Spinner animation="border" size="sm" />
+                ) : initialData ? (
+                  "Update"
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
 
@@ -315,9 +407,6 @@ const Register = ({
 };
 
 export default Register;
-
-
-
 
 // import React, { useState } from "react";
 // import { toast, ToastContainer } from "react-toastify";

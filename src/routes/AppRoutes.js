@@ -13,6 +13,7 @@ export const AppRoutes = {
     HACKATHON_PROGRESS: "/app/hackathon-progress",
     RESOURCE_REQUEST: "/app/resource-request",
     USER_PROFILE: "/app/user-profile",
+    USER_LOGINREQUEST: "/app/manage-login-request",
 
   
     // Admin routes
@@ -24,5 +25,7 @@ export const AppRoutes = {
     ADMIN_BRANCHES: "/admin/app/manage-branches",
     ADMIN_DEPARTMENTS: "/admin/app/manage-departments",
     ADMIN_REQUESTRESOURCE: "/admin/app/manage-resource-request",
+    ADMIN_LOGINREQUEST: "/admin/app/manage-user-login-request",
+    ADMIN_GENERATEREPORTS: "/admin/app/generate-reports"
   };
   

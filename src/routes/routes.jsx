@@ -17,6 +17,8 @@ import ManageBranches from "../admin/AdminPages/manageBranches/ManageBranches";
 import ManageDepartments from "../admin/AdminPages/manageDepartments/ManageDepartments";
 import ResourceRequest from "../pages/teamLeader/resourceRequest/ResourceRquest";
 import ManageResourceRequest from "../admin/AdminPages/manageResorceRequest/ManageResourceRequest";
+import ManageLoginRequest from "../components/manageLoginRequest/ManageLoginRequest";
+import GenerateReports from "../admin/AdminPages/generateReports/GenerateReports";
 
 
 
@@ -59,6 +61,10 @@ const CustomRoutes = () => {
                     path={AppRoutes.USER_PROFILE} 
                     element={<UserProfile />} 
                 />
+                <Route 
+                    path={AppRoutes.USER_LOGINREQUEST} 
+                    element={<ManageLoginRequest />} 
+                />
 
              </Route>
 
@@ -92,6 +98,14 @@ const CustomRoutes = () => {
                 <Route 
                     path={AppRoutes.ADMIN_REQUESTRESOURCE} 
                     element={<ManageResourceRequest />} 
+                />
+                <Route 
+                    path={AppRoutes.ADMIN_LOGINREQUEST} 
+                    element={<ManageLoginRequest />} 
+                />
+                <Route 
+                    path={AppRoutes.ADMIN_GENERATEREPORTS} 
+                    element={<GenerateReports />} 
                 />
 
             </Route>

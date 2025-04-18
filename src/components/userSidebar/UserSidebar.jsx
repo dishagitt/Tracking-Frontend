@@ -18,15 +18,17 @@ const UserSidebar = ({ isOpen, onClose }) => {
     { label: "Team Details", icon: <AiOutlineTeam />, path: "/app/team-profile" },
     { label: "Competition Progress", icon: <BiSolidReport />, path: "/app/hackathon-progress" },
     { label: "Resource Request", icon: <FiUsers />, path: "/app/resource-request" },
-    { label: "Team Chatroom", icon: <BsChatDots />, path: "/user/chatroom" },
-    { label: "Help & Queries", icon: <FiHelpCircle />, path: "/user/home" },
+    { label: "Manage Login Request", icon: <FiUsers />, path: "/app/manage-login-request" },
+    // { label: "Team Chatroom", icon: <BsChatDots />, path: "/user/chatroom" },
+    // { label: "Help & Queries", icon: <FiHelpCircle />, path: "/user/home" },
+    
   ];
 
-  if (userType === "team leader") {
+  if (userType === "Team Leader") {
     menuItems.push({
-      label: "Register Team",
+      label: "Team Details",
       icon: <AiOutlineTeam />,
-      path: "/user/register-team",
+      path: "/app/team-profile",
     });
   }
 

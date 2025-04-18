@@ -29,7 +29,7 @@ const mockUser = {
   firstName: "John",
   lastName: "Doe",
   email: "john@example.com",
-  userType: "team_leader",
+  userType: "admin",
   isApproved: true,
   token: "mocked-jwt-token",
 };
