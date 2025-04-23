@@ -94,11 +94,11 @@ const AdminDashboard = () => {
           </h3>
           <div className="stats-container">
             <div className="stats-box">
-              <h4>ABC Competition</h4>
+              <h4>SIH</h4>
               <p>{analyticsData.totalParticipants}</p>
             </div>
             <div className="stats-box">
-              <h4>XYZ Competition</h4>
+              <h4>SSIP</h4>
               <p>{analyticsData.totalParticipants}</p>
             </div>
           </div>
@@ -110,11 +110,11 @@ const AdminDashboard = () => {
           </h3>
           <div className="stats-container">
             <div className="stats-box">
-              <h4>ABC Competition</h4>
+              <h4>SIH</h4>
               <p>{analyticsData.totalWinners}</p>
             </div>
             <div className="stats-box">
-              <h4>XYZ Competition</h4>
+              <h4>SSIP</h4>
               <p>{analyticsData.totalWinners}</p>
             </div>
           </div>

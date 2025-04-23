@@ -1413,7 +1413,7 @@ const TeamProfile = () => {
 
                 {/* Competition Details */}
                 <div className="form-section">
-                    <h3>Competition Details</h3>
+                    <h3>Hackathon Details</h3>
                     <div className="form-group">
                         <label htmlFor="hackathonType">Hackathon Type:</label>
                         <select

@@ -1,126 +1,241 @@
-import React, { useState } from 'react';
-import { jsPDF } from 'jspdf';
-import ExcelJS from 'exceljs'; // Import exceljs
+import React, { useState, useEffect } from 'react';
+import './GenerateReports.scss';
 import { saveAs } from 'file-saver';
-import './GenerateReports.scss';  // Import the SCSS file directly
+import ExcelJS from 'exceljs';
+import { jsPDF } from "jspdf";
+import "jspdf-autotable"; 
 
 const GenerateReports = () => {
-  const [data, setData] = useState([]);
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
+  const [hackathonFilter, setHackathonFilter] = useState('');
+  const [yearFilter, setYearFilter] = useState('');
+  const [yearRange, setYearRange] = useState('');
+  const [problemSearch, setProblemSearch] = useState('');
+  const [problemSuggestions, setProblemSuggestions] = useState([]);
 
-  const handleDownloadPDF = () => {
+  // Sample data for reports
+  const studentData = [
+    { name: 'John Doe', dept: 'CSE', branch: 'AI', enroll: '123456789012', team: 'Alpha', hackathon: 'SSIP', year: '2023' },
+    { name: 'Jane Smith', dept: 'IT', branch: 'DS', enroll: '123456789013', team: 'Beta', hackathon: 'SSIP', year: '2024' },
+  ];
+
+  const teamData = [
+    {
+      team: 'Alpha',
+      ps: 'Smart India City',
+      ppt: 'solution_alpha.pdf',
+      status: 'Winner',
+      members: [
+        { name: 'John Doe', dept: 'CSE', branch: 'AI', enroll: '123456789012' },
+        { name: 'Sam Ray', dept: 'CSE', branch: 'AI', enroll: '123456789014' },
+      ],
+      hackathon: 'SIH',
+      year: '2023'
+    },
+  ];
+
+  const problemData = [
+    {
+      team: 'Alpha',
+      ps: 'Smart India City',
+      ppt: 'solution_alpha.pdf',
+      hackathon: 'SIH',
+      year: '2023',
+      status: 'Winner'
+    },
+  ];
+  
+
+  // Simulate suggestions from database
+  useEffect(() => {
+    if (problemSearch) {
+      // Simulated search
+      const suggestions = ['Smart India City', 'AI-based Traffic Control', 'Energy Optimization'].filter((ps) =>
+        ps.toLowerCase().includes(problemSearch.toLowerCase())
+      );
+      setProblemSuggestions(suggestions);
+    } else {
+      setProblemSuggestions([]);
+    }
+  }, [problemSearch]);
+
+  const downloadPDF = (tableId, fileName) => {
     const doc = new jsPDF();
-    doc.text("Generated Report", 20, 20);
-    doc.autoTable({ html: "#reportTable" });
-    doc.save("report.pdf");
+    
+    // Check if the table has rows before generating the PDF
+    const table = document.getElementById(tableId);
+    if (table && table.rows.length > 1) { // Ensure there is at least one data row (skip header row)
+      doc.autoTable({ html: `#${tableId}` });
+      doc.save(`${fileName}.pdf`);
+    } else {
+      alert("No data available to download");
+    }
   };
+  
+  
 
-  const handleDownloadExcel = async () => {
+  const downloadExcel = async (tableId, fileName) => {
+    const table = document.getElementById(tableId);
+    const rows = table?.querySelectorAll('tbody tr');
+  
+    if (!rows || rows.length === 0) {
+      alert("No data available to export!");
+      return;
+    }
+  
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Report");
-
-    // Add column headers
-    worksheet.columns = [
-      { header: 'Name', key: 'name', width: 30 },
-      { header: 'Email', key: 'email', width: 30 },
-      { header: 'User Type', key: 'userType', width: 15 },
-      { header: 'ID Proof', key: 'idProof', width: 20 },
-    ];
-
-    // Add data rows
-    data.forEach((item) => {
-      worksheet.addRow({
-        name: item.name,
-        email: item.email,
-        userType: item.userType,
-        idProof: item.idProof,
-      });
+    const worksheet = workbook.addWorksheet('Report');
+  
+    const allRows = Array.from(table.rows);
+    allRows.forEach((row) => {
+      const cells = Array.from(row.cells).map((cell) => cell.innerText);
+      worksheet.addRow(cells);
     });
-
-    // Generate the Excel file
-    workbook.xlsx.writeBuffer().then((buffer) => {
-      const file = new Blob([buffer], { type: 'application/octet-stream' });
-      saveAs(file, 'report.xlsx');
-    });
+  
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), `${fileName}.xlsx`);
   };
-
-  const handleDelete = (id) => {
-    setDeleteId(id);
-    setShowDeletePopup(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // Logic for deleting the request goes here (mock or real API)
-    setShowDeletePopup(false);
-    setData((prevData) => prevData.filter(item => item.id !== deleteId));
-  };
-
-  const handleCancelDelete = () => {
-    setShowDeletePopup(false);
-  };
+  
 
   return (
-    <div className="generateReportsContainer">
-      <h3 className="generateReportsHeading">Generate Reports</h3>
-
-      <div className="generateReportsActions">
-        <button onClick={handleDownloadPDF}>Download PDF</button>
-        <button onClick={handleDownloadExcel}>Download Excel</button>
-      </div>
-
-      <table id="reportTable" className="generateReportsTable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>User Type</th>
-            <th>ID Proof</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.length === 0 ? (
-            <tr>
-              <td colSpan="5" className="text-center">No Data</td>
-            </tr>
-          ) : (
-            data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.userType}</td>
-                <td>
-                  <a href={item.idProof} target="_blank" rel="noopener noreferrer">
-                    View
-                  </a>
-                </td>
-                <td className="actionButtons">
-                  <button onClick={() => handleDelete(item.id)} className="btn btn-danger btn-sm">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-
-      {showDeletePopup && (
-        <div className="generateReportsPopup">
-          <div className="generateReportsPopupContent">
-            <p>Are you sure you want to delete this request?</p>
-            <div className="generateReportsPopupActions">
-              <button onClick={handleConfirmDelete} className="btn btn-danger">
-                Yes, Delete
-              </button>
-              <button onClick={handleCancelDelete} className="btn btn-secondary">
-                Cancel
-              </button>
-            </div>
-          </div>
+    <div className="generate-reports">
+      {/* Student Based Report */}
+      <section className="report-section">
+        <h3>Student Participation Report</h3>
+        <div className="filters">
+          <select value={hackathonFilter} onChange={(e) => setHackathonFilter(e.target.value)}>
+            <option value="">Select Hackathon</option>
+            <option value="SIH">SIH</option>
+            <option value="SSIP">SSIP</option>
+          </select>
+          <select value={yearFilter} onChange={(e) => setYearFilter(e.target.value)}>
+            <option value="">Select Year</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
+          <select value={yearRange} onChange={(e) => setYearRange(e.target.value)}>
+            <option value="">Select Year Range</option>
+            <option value="last2">Last 2 Years</option>
+            <option value="last5">Last 5 Years</option>
+          </select>
+          <button onClick={() => downloadPDF('studentTable', 'Student_Report')}>Download PDF</button>
+          <button onClick={() => downloadExcel('studentTable', 'Student_Report')}>Download Excel</button>
         </div>
-      )}
+        <table id="studentTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Department</th>
+              <th>Branch</th>
+              <th>Enrollment No</th>
+              <th>Team</th>
+              <th>Hackathon</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {studentData.map((s, index) => (
+              <tr key={index}>
+                <td>{s.name}</td>
+                <td>{s.dept}</td>
+                <td>{s.branch}</td>
+                <td>{s.enroll}</td>
+                <td>{s.team}</td>
+                <td>{s.hackathon}</td>
+                <td>{s.year}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {/* Team Based Report */}
+      <section className="report-section">
+        <h3>Team Based Report</h3>
+        <div className="filters">
+          <select value={hackathonFilter} onChange={(e) => setHackathonFilter(e.target.value)}>
+            <option value="">Select Hackathon</option>
+            <option value="SIH">SIH</option>
+            <option value="SSIP">SSIP</option>
+          </select>
+          <select value={yearFilter} onChange={(e) => setYearFilter(e.target.value)}>
+            <option value="">Select Year</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
+          <button onClick={() => downloadPDF('teamTable', 'Team_Report')}>Download PDF</button>
+          <button onClick={() => downloadExcel('teamTable', 'Team_Report')}>Download Excel</button>
+        </div>
+        <table id="teamTable">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Problem Statement</th>
+              <th>Solution PPT</th>
+              <th>Status</th>
+              <th>Members</th>
+              <th>Hackathon</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamData.map((t, i) => (
+              <tr key={i}>
+                <td>{t.team}</td>
+                <td>{t.ps}</td>
+                <td><a href={t.ppt} target="_blank">View</a></td>
+                <td>{t.status}</td>
+                <td>{t.members.map((m) => `${m.name} (${m.dept}/${m.branch})`).join(', ')}</td>
+                <td>{t.hackathon}</td>
+                <td>{t.year}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {/* Problem Statement Based Report */}
+      <section className="report-section">
+        <h3>Problem Statement Based Report</h3>
+        <div className="filters">
+          <input
+            type="text"
+            placeholder="Search Problem Statement"
+            value={problemSearch}
+            onChange={(e) => setProblemSearch(e.target.value)}
+          />
+          {problemSuggestions.length > 0 && (
+            <ul className="suggestions">
+              {problemSuggestions.map((ps, i) => (
+                <li key={i} onClick={() => setProblemSearch(ps)}>{ps}</li>
+              ))}
+            </ul>
+          )}
+          <button onClick={() => downloadPDF('problemTable', 'Problem_Statement_Report')}>Download PDF</button>
+          <button onClick={() => downloadExcel('problemTable', 'Problem_Statement_Report')}>Download Excel</button>
+        </div>
+        <table id="problemTable">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Solution PPT</th>
+              <th>Hackathon</th>
+              <th>Year</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {problemData.map((p, idx) => (
+              <tr key={idx}>
+                <td>{p.team}</td>
+                <td><a href={p.ppt} target="_blank">View</a></td>
+                <td>{p.hackathon}</td>
+                <td>{p.year}</td>
+                <td>{p.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 };
